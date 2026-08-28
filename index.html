@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CUHA Resident Posting Timeline · Sep–Dec 2026 · AIIMS Bhopal</title>
+<meta name="description" content="Resident posting timeline for the Community Urban Health Area (CUHA), Department of Community and Family Medicine, AIIMS Bhopal — 01 September to 31 December 2026.">
+<meta name="roster-version" content="v11">
+<meta name="prepared" content="2026-08-28">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --page: #f9f9f7; --surface: #fcfcfb; --band: #f1f0ec;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --grid: #e1e0d9; --axis: #c3c2b7; --ring: rgba(11,11,11,0.10);
+    --shadow: 0 10px 28px rgba(11,11,11,0.12);
+    --c-ipc: #2a78d6; --c-sai: #eb6834; --c-bar: #1baf7a; --c-nhm: #4a3aa7; --c-field: #8a8f79;
+    --c-leave: #a5606a; --c-off: #6f6f68;
+    --c-fm9: #008300; --c-cl5: #e87ba4; --c-out: #eda100;
+    --ci-dark: #0b0b0b; --ci-light: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --page: #0d0d0d; --surface: #1a1a19; --band: #232322;
+      --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --grid: #2c2c2a; --axis: #383835; --ring: rgba(255,255,255,0.10);
+      --shadow: 0 10px 28px rgba(0,0,0,0.5);
+      --c-ipc: #3987e5; --c-sai: #d95926; --c-bar: #199e70; --c-nhm: #5747c0; --c-field: #767b66;
+      --c-leave: #8f545d; --c-off: #5d5d57;
+      --c-fm9: #008300; --c-cl5: #d55181; --c-out: #c98500;
+    }
+  }
+  :root[data-theme="dark"] {
+    --page: #0d0d0d; --surface: #1a1a19; --band: #232322;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --ring: rgba(255,255,255,0.10);
+    --shadow: 0 10px 28px rgba(0,0,0,0.5);
+    --c-ipc: #3987e5; --c-sai: #d95926; --c-bar: #199e70; --c-nhm: #5747c0; --c-field: #767b66;
+    --c-leave: #8f545d; --c-off: #5d5d57;
+    --c-fm9: #008300; --c-cl5: #d55181; --c-out: #c98500;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 40px 24px 64px; }
+  header .masthead { display: flex; align-items: center; gap: 13px; margin: 0 0 18px; }
+  header .emblem { width: 44px; height: 44px; border-radius: 50%; background: #fff; object-fit: cover; flex: none; box-shadow: 0 0 0 1px var(--ring); }
+  header .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 3px; }
+  header .dept { margin: 0; font-size: 13px; color: var(--ink-2); }
+  header h1 { font-family: "IBM Plex Serif", Georgia, "Times New Roman", serif; font-weight: 700; font-size: clamp(24px, 3.4vw, 34px); line-height: 1.15; margin: 0 0 6px; text-wrap: balance; }
+  header .dateline { margin: 0; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 13px; letter-spacing: 0.02em; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .rule { border: 0; border-top: 1px solid var(--ink); margin: 18px 0 0; }
+  .rule + .rule { border-top-width: 3px; margin-top: 2px; margin-bottom: 22px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 40px; margin: 0 0 18px; }
+  .legend-group { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+  .legend-title { flex-basis: 100%; font-size: 10.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: -2px; }
+  .key { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--ink-2); }
+  .key b { color: var(--ink); font-weight: 600; }
+  .sw { width: 16px; height: 11px; border-radius: 3px; flex: none; background: var(--fill); }
+  .sw.duty { background: repeating-linear-gradient(135deg, rgba(11,11,11,0.16) 0 4px, transparent 4px 8px), var(--fill); }
+  .panel { background: var(--surface); border: 1px solid var(--ring); border-radius: 10px; overflow: hidden; }
+  .scroller { overflow-x: auto; }
+  .canvas { min-width: 1220px; position: relative; }
+  .gridlayer { position: absolute; top: 0; bottom: 0; left: var(--nameW, 172px); right: 0; z-index: 0; }
+  .gl { position: absolute; top: 44px; bottom: 0; width: 1px; background: var(--grid); }
+  .gl.month { background: var(--axis); }
+  .crow { display: flex; position: relative; z-index: 1; }
+  .name-cell { flex: 0 0 172px; position: sticky; left: 0; z-index: 3; background: var(--surface); border-right: 1px solid var(--axis); padding: 0 14px; display: flex; align-items: center; }
+  .lane { flex: 1 1 auto; position: relative; }
+  .axisrow .name-cell { height: 44px; align-items: flex-end; padding-bottom: 5px; font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .months { display: flex; height: 26px; }
+  .month-seg { display: flex; align-items: center; justify-content: center; background: var(--band); border-right: 1px solid var(--axis); font-size: 10.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); }
+  .month-seg:last-child { border-right: 0; }
+  .ticks { position: relative; height: 18px; border-bottom: 1px solid var(--axis); }
+  .tick { position: absolute; top: 2px; transform: translateX(2px); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .grouprow { background: var(--band); border-bottom: 1px solid var(--grid); }
+  .grouprow .name-cell { background: var(--band); height: 30px; }
+  .grouprow .glabel { font-size: 10.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; }
+  .grouprow .lane { height: 30px; }
+  .r { border-bottom: 1px solid var(--grid); }
+  .r:last-child { border-bottom: 0; }
+  .r .lane { height: 48px; }
+  .r .name-cell { font-size: 13px; font-weight: 600; }
+  .r .name-cell .role { color: var(--muted); font-weight: 500; font-size: 11.5px; margin-left: 5px; }
+  .r .name-cell.tbd { font-weight: 500; color: var(--ink-2); font-style: italic; }
+  /* Adjacent bars sit 1px in from each day edge → a 2px visual separator; the
+     underlying day-sets have no temporal gaps. */
+  .bar { position: absolute; top: 14px; height: 24px; border-radius: 4px; overflow: hidden; display: flex; align-items: center; padding: 0 6px; font-size: 10.5px; font-weight: 600; letter-spacing: 0.01em; white-space: nowrap; cursor: default; outline-offset: 2px; background: var(--fill); }
+  .bar:focus-visible { outline: 2px solid var(--ink); }
+  .bar.duty { background: repeating-linear-gradient(135deg, rgba(11,11,11,0.16) 0 4px, transparent 4px 8px), var(--fill); }
+  .bar.transfer { box-shadow: inset 0 0 0 2px rgba(11,11,11,0.4); }
+  /* See-through overlay: a transferred duty conducted ON TOP of the base
+     posting — striped in the duty colour with transparent gaps, so the base
+     bar beneath stays visible. Drawn after (above) the base bar. */
+  .bar.overlay { background: repeating-linear-gradient(135deg, var(--fill) 0 4px, transparent 4px 8px); }
+  .bar .cont { font-weight: 700; opacity: 0.9; }
+  .bar .cont.s { margin-right: 3px; }
+  .bar .cont.e { margin-left: auto; padding-left: 3px; }
+  .bar.clip-s { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+  .bar.clip-e { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+  @media (prefers-reduced-motion: no-preference) { .bar { transition: filter 120ms ease; } }
+  .bar:hover { filter: brightness(1.07); }
+  .tip { position: fixed; z-index: 50; max-width: 340px; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--ring); border-radius: 8px; box-shadow: var(--shadow); padding: 10px 12px; font-size: 12.5px; line-height: 1.45; display: none; }
+  .tip.show { display: block; }
+  .tip .t-name { font-weight: 600; }
+  .tip .t-cat { display: flex; align-items: center; gap: 7px; margin-top: 3px; color: var(--ink-2); }
+  .tip .t-dates { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11.5px; margin-top: 3px; font-variant-numeric: tabular-nums; }
+  .tip .t-note { color: var(--ink-2); margin-top: 3px; }
+  details.tableview { margin-top: 26px; }
+  details.tableview summary { cursor: pointer; font-weight: 600; font-size: 13.5px; color: var(--ink); padding: 10px 14px; background: var(--surface); border: 1px solid var(--ring); border-radius: 8px; user-select: none; }
+  details.tableview[open] summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+  .twrap { overflow-x: auto; border: 1px solid var(--ring); border-top: 0; border-radius: 0 0 8px 8px; background: var(--surface); }
+  table.detail { border-collapse: collapse; width: 100%; min-width: 720px; font-size: 12.5px; line-height: 1.35; }
+  table.detail th { text-align: left; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; padding: 10px 14px 6px; border-bottom: 1px solid var(--axis); }
+  table.detail td { padding: 7px 14px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+  table.detail tr:last-child td { border-bottom: 0; }
+  table.detail td.dates { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11.5px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  table.detail td.res { font-weight: 600; white-space: nowrap; }
+  table.detail td .chip { display: inline-flex; align-items: center; gap: 7px; }
+  table.detail td .chip .sw { width: 12px; height: 9px; }
+  table.detail td.note { color: var(--ink-2); }
+  table.detail tr.grp td { background: var(--band); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; color: var(--ink-2); padding: 6px 14px; }
+  .section-title { font-size: 10.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 28px 0 0; }
+  .notes { margin: 8px 0 0; padding: 0 0 0 20px; color: var(--ink-2); font-size: 12.5px; }
+  .notes li { margin-bottom: 6px; }
+  .notes li::marker { color: var(--muted); }
+  .source { margin: 18px 0 0; color: var(--muted); font-size: 11.5px; }
+  .source + .source { margin-top: 4px; }
+  @media (max-width: 640px) {
+    .wrap { padding: 28px 14px 48px; }
+    .canvas { --nameW: 148px; }
+    .name-cell { flex-basis: 148px; padding: 0 10px; }
+  }
+  /* Print: A4 landscape, light palette, chart on page 1, notes on the next page.
+     The collapsed posting table stays collapsed (open it first to print it). */
+  @page { size: A4 landscape; margin: 8mm; }
+  @media print {
+    :root, :root:not([data-theme="light"]), :root[data-theme="dark"] { --page: #f9f9f7; --surface: #fcfcfb; --band: #f1f0ec;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --grid: #e1e0d9; --axis: #c3c2b7; --ring: rgba(11,11,11,0.10);
+    --shadow: 0 10px 28px rgba(11,11,11,0.12);
+    --c-ipc: #2a78d6; --c-sai: #eb6834; --c-bar: #1baf7a; --c-nhm: #4a3aa7; --c-field: #8a8f79;
+    --c-leave: #a5606a; --c-off: #6f6f68;
+    --c-fm9: #008300; --c-cl5: #e87ba4; --c-out: #eda100;
+    --ci-dark: #0b0b0b; --ci-light: #ffffff; --page: #ffffff; --surface: #ffffff; --shadow: none; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    html, body { background: #ffffff; }
+    .wrap { max-width: none; padding: 0; zoom: 0.82; }
+    header .masthead { margin-bottom: 10px; }
+    header h1 { font-size: 26px; margin-bottom: 4px; }
+    .rule + .rule { margin-bottom: 12px; }
+    .legend { gap: 4px 24px; margin-bottom: 10px; }
+    .legend-title { flex-basis: auto; margin: 0; }
+    .panel { border-radius: 0; break-inside: avoid; }
+    .scroller, .twrap { overflow: visible; }
+    .canvas { min-width: 1220px; }
+    .name-cell { position: static; }
+    .r .lane { height: 44px; }
+    .bar { top: 10px; transition: none; }
+    .crow { break-inside: avoid; }
+    .tip { display: none !important; }
+    details.tableview:not([open]) { display: none; }
+    details.tableview[open] { break-before: page; margin-top: 0; }
+    details.tableview summary { border: 0; padding: 0 0 8px; list-style: none; }
+    details.tableview summary::-webkit-details-marker { display: none; }
+    .twrap { border: 0; border-radius: 0; }
+    table.detail { min-width: 0; }
+    table.detail thead { display: table-header-group; }
+    table.detail tr { break-inside: avoid; }
+    .section-title { break-before: page; margin-top: 0; }
+    .notes li { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="masthead">
+      <img class="emblem" alt="AIIMS Bhopal emblem" width="44" height="44" src="data:image/jpeg;base64,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">
+      <div>
+        <p class="eyebrow">All India Institute of Medical Sciences, Bhopal</p>
+        <p class="dept">Department of Community and Family Medicine — Community Urban Health Area (CUHA)</p>
+      </div>
+    </div>
+    <h1>Resident Posting Timeline</h1>
+    <p class="dateline">01 September – 31 December 2026</p>
+    <hr class="rule"><hr class="rule">
+  </header>
+
+  <div class="legend" id="legend"></div>
+
+  <div class="panel">
+    <div class="scroller">
+      <div class="canvas" id="canvas" role="figure" aria-label="Gantt chart of CUHA resident postings, September to December 2026"></div>
+    </div>
+  </div>
+
+  <details class="tableview">
+    <summary>Full posting table (text view)</summary>
+    <div class="twrap"><table class="detail" id="dtable"></table></div>
+  </details>
+
+  <h2 class="section-title">Notes</h2>
+  <ol class="notes">
+    <li>Bars show each resident's <b>primary allocation</b> per day — <b>solid</b> = base posting, <b>striped</b> = duty (UG teaching or outreach van); a <b>dark-ringed striped bar</b> is a duty day transferred in from another resident, and a <b>see-through striped bar</b> is a transferred duty conducted on top of the base posting still visible beneath it (the one concurrent case in this window: Dr Kiranmayi's Batch E sessions on her Saibaba days — see note 4). <b>IPC is staffed by TWO residents every day</b> — Dr Manvinder (SR) with a Junior Resident rotating monthly per the departmental roster (Dr Abhishek: September–October; Dr Prerak: November–December). When either of the pair is on approved teaching, outreach-van or leave duty, a named cover holds that slot for the whole day (the blue IPC blocks on the covers' rows); on 01 &amp; 03–05 Sep and 20–30 Sep no Senior Resident is free (other centres, teaching, van or leave), so both IPC slots are held by Junior Residents on those 15 days. <b>PHC Saibaba rotates WEEKLY (Sun–Sat)</b> between Dr Kiranmayi &amp; Dr Pooja — a week blocked by van/teaching/leave passes to the other (both blocked → a Field Activities JR looped in temporarily; never needed in this window). PHC Barkheda rotates monthly between Dr Chaitra &amp; Dr Akhil; within September, Dr Akhil holds 01–14 Sep and Dr Chaitra 15–30 Sep (see note 4).</li>
+    <li>MBBS teaching is ONE Senior Resident per batch (orders dt 29/07/26 &amp; 01/07/26); PGs from Field Activities aid as per requirement — no PG is ever the sole teacher.</li>
+    <li><b>Yellow Fever Wednesdays at IPC — attendees are the day's two IPC residents.</b> Dr Manvinder attends alongside the serving IPC JR on his eleven free Wednesdays; on his van-week Wednesdays the van day is covered by a JR (02 Sep &amp; 07 Oct — Dr Prerak) and he attends; on his batch-session and leave Wednesdays the day's IPC cover attends in his place: 16 Sep &amp; 21 Oct — Dr Kiranmayi; 23 &amp; 30 Sep — Dr Prerak; 25 Nov — Dr Akhil; 02 &amp; 09 Dec — Dr Chaitra. On 18 Nov Dr Prerak's van day is absorbed by the van crew (Dr Chaitra) and he attends IPC. The serving IPC JR is never on field or van duty on a Wednesday of his serving months.</li>
+    <li><b>Dr Pooja:</b> on approved leave 01–14 Sep (extended 28.08.2026); she resumes at PHC Saibaba from 15 Sep. <b>Dr Kiranmayi covers her for the entire leave</b> — holding Saibaba 01–14 Sep and conducting every Batch E session (01–05, 07–12 &amp; 14 Sep — the see-through striped overlays on her Saibaba bar), with <b>Dr Athira (JR) officially posted to Saibaba 01–14 Sep</b> providing centre support during the 10 am–1 pm sessions. <b>Dr Akhil holds PHC Barkheda 01–14 Sep</b>; Dr Chaitra is Field-based those days, takes the 13–14 Sep IPC cover once her Batch C teaching ends 12 Sep, and resumes Barkheda from 15 Sep. Dr Prerak covers Dr Manvinder's 02 Sep van day and holds the 06–12 Sep van week.</li>
+    <li>A squared bar end with ‹ marks a duty that <b>began before the chart window</b> — two bars: 9th Sem Batch C (from 26 Aug) and Dr Manvinder's van week (from 30 Aug). No duty extends past 31 Dec.</li>
+    <li>The newly allotted Junior Residents <b>Dr Angel</b> and <b>Dr Chhavi</b> are shown by name; “New JR 3” will be replaced with the name of the remaining newly allotted Junior Resident upon joining. NHM (National Health Mission): Dr Athira, October–November 2026. Only CUHA-unit outreach weeks are shown (rosters Sep–Nov 2026); the December 2026 outreach roster is to be issued.</li>
+  </ol>
+  <p class="source">Companion chart to the CUHA Residents’ Duty Roster, 01 September – 31 December 2026 — Department of Community and Family Medicine, AIIMS Bhopal. Prepared 28.08.2026 · Effective from 01.09.2026 · As per Circular No. Dean (A)/AIIMSBPL/2026/1364 dated 13.08.2026.</p>
+  <p class="source">Sources: FM posting order dt 29/07/26 · Clinical posting order dt 01/07/26 · Outreach Activities rosters Sep–Nov 2026.</p>
+</div>
+
+<div class="tip" id="tip" aria-hidden="true"></div>
+
+<script>
+/*__DATA_START__*/
+const DATA = {"N":122,"months":[["September 2026",30],["October 2026",31],["November 2026",30],["December 2026",31]],"residents":[{"id":"manvinder","name":"Dr Manvinder","role":"SR","tbd":0,"group":"SR","segments":[{"kind":"duty","cat":"out","s":0,"e":0,"dates":"01 Sep – 01 Sep 2026","sourceDutyId":"van-w1-manvinder","fullDates":"30 Aug – 05 Sep 2026","note":"Van week 30 Aug – 05 Sep","clipS":1,"clipE":0},{"kind":"base","cat":"ipc","s":1,"e":1,"dates":"02 Sep – 02 Sep 2026"},{"kind":"duty","cat":"out","s":2,"e":4,"dates":"03 Sep – 05 Sep 2026","sourceDutyId":"van-w1-manvinder","fullDates":"30 Aug – 05 Sep 2026","note":"Van week 30 Aug – 05 Sep","clipS":0,"clipE":0},{"kind":"base","cat":"ipc","s":5,"e":11,"dates":"06 Sep – 12 Sep 2026"},{"kind":"duty","cat":"fm9","s":12,"e":29,"dates":"13 Sep – 30 Sep 2026","sourceDutyId":"fm9-D","fullDates":"13 Sep – 30 Sep 2026","note":"Batch D · 13 – 30 Sep · order dt 29/07/26","clipS":0,"clipE":0},{"kind":"base","cat":"ipc","s":30,"e":32,"dates":"01 Oct – 03 Oct 2026"},{"kind":"duty","cat":"out","s":33,"e":35,"dates":"04 Oct – 06 Oct 2026","sourceDutyId":"van-w6-manvinder","fullDates":"04 Oct – 10 Oct 2026","note":"Van week 04 – 10 Oct","clipS":0,"clipE":0},{"kind":"base","cat":"ipc","s":36,"e":36,"dates":"07 Oct – 07 Oct 2026"},{"kind":"duty","cat":"out","s":37,"e":39,"dates":"08 Oct – 10 Oct 2026","sourceDutyId":"van-w6-manvinder","fullDates":"04 Oct – 10 Oct 2026","note":"Van week 04 – 10 Oct","clipS":0,"clipE":0},{"kind":"base","cat":"ipc","s":40,"e":49,"dates":"11 Oct – 20 Oct 2026"},{"kind":"base","cat":"leave","s":50,"e":56,"dates":"21 Oct – 27 Oct 2026"},{"kind":"base","cat":"ipc","s":57,"e":78,"dates":"28 Oct – 18 Nov 2026"},{"kind":"duty","cat":"cl5","s":79,"e":99,"dates":"19 Nov – 09 Dec 2026","sourceDutyId":"cl5-D","fullDates":"19 Nov – 09 Dec 2026","note":"Batch D · 19 Nov – 09 Dec · order dt 01/07/26","clipS":0,"clipE":0},{"kind":"base","cat":"ipc","s":100,"e":121,"dates":"10 Dec – 31 Dec 2026"}],"markers":[]},{"id":"kiranmayi","name":"Dr Kiranmayi","role":"SR","tbd":0,"group":"SR","segments":[{"kind":"base","cat":"sai","s":0,"e":13,"dates":"01 Sep – 14 Sep 2026"},{"kind":"duty","cat":"cl5","s":0,"e":4,"dates":"01 Sep – 05 Sep 2026","sourceDutyId":"cl5-E","fullDates":"24 Aug – 14 Sep 2026","note":"Batch E session — Dr Pooja on leave · covering for Dr Pooja","clipS":0,"clipE":0,"transfer":1,"coveredFor":"Dr Pooja","overlay":1},{"kind":"duty","cat":"cl5","s":6,"e":11,"dates":"07 Sep – 12 Sep 2026","sourceDutyId":"cl5-E","fullDates":"24 Aug – 14 Sep 2026","note":"Batch E session — Dr Pooja on leave · covering for Dr Pooja","clipS":0,"clipE":0,"transfer":1,"coveredFor":"Dr Pooja","overlay":1},{"kind":"duty","cat":"cl5","s":13,"e":13,"dates":"14 Sep – 14 Sep 2026","sourceDutyId":"cl5-E","fullDates":"24 Aug – 14 Sep 2026","note":"Batch E session — Dr Pooja on leave · covering for Dr Pooja","clipS":0,"clipE":0,"transfer":1,"coveredFor":"Dr Pooja","overlay":1},{"kind":"base","cat":"ipc","s":14,"e":18,"dates":"15 Sep – 19 Sep 2026"},{"kind":"duty","cat":"out","s":19,"e":25,"dates":"20 Sep – 26 Sep 2026","sourceDutyId":"van-w4-kiranmayi","fullDates":"20 Sep – 26 Sep 2026","note":"Van week 20 – 26 Sep · with Dr Athira","clipS":0,"clipE":0},{"kind":"base","cat":"sai","s":26,"e":32,"dates":"27 Sep – 03 Oct 2026"},{"kind":"base","cat":"ipc","s":33,"e":35,"dates":"04 Oct – 06 Oct 2026"},{"kind":"base","cat":"field","s":36,"e":36,"dates":"07 Oct – 07 Oct 2026"},{"kind":"base","cat":"ipc","s":37,"e":39,"dates":"08 Oct – 10 Oct 2026"},{"kind":"base","cat":"sai","s":40,"e":46,"dates":"11 Oct – 17 Oct 2026"},{"kind":"base","cat":"field","s":47,"e":49,"dates":"18 Oct – 20 Oct 2026"},{"kind":"base","cat":"ipc","s":50,"e":56,"dates":"21 Oct – 27 Oct 2026"},{"kind":"duty","cat":"cl5","s":57,"e":78,"dates":"28 Oct – 18 Nov 2026","sourceDutyId":"cl5-C","fullDates":"28 Oct – 18 Nov 2026","note":"Batch C · 28 Oct – 18 Nov · order dt 01/07/26","clipS":0,"clipE":0},{"kind":"base","cat":"field","s":79,"e":81,"dates":"19 Nov – 21 Nov 2026"},{"kind":"base","cat":"sai","s":82,"e":88,"dates":"22 Nov – 28 Nov 2026"},{"kind":"duty","cat":"out","s":89,"e":95,"dates":"29 Nov – 05 Dec 2026","sourceDutyId":"van-w14-kiranmayi","fullDates":"29 Nov – 05 Dec 2026","note":"Van week 29 Nov – 05 Dec · with Dr Abhishek","clipS":0,"clipE":0},{"kind":"base","cat":"sai","s":96,"e":102,"dates":"06 Dec – 12 Dec 2026"},{"kind":"base","cat":"field","s":103,"e":109,"dates":"13 Dec – 19 Dec 2026"},{"kind":"base","cat":"sai","s":110,"e":116,"dates":"20 Dec – 26 Dec 2026"},{"kind":"base","cat":"field","s":117,"e":121,"dates":"27 Dec – 31 Dec 2026"}],"markers":[]},{"id":"pooja","name":"Dr Pooja","role":"SR","tbd":0,"group":"SR","segments":[{"kind":"base","cat":"leave","s":0,"e":13,"dates":"01 Sep – 14 Sep 2026"},{"kind":"base","cat":"sai","s":14,"e":25,"dates":"15 Sep – 26 Sep 2026"},{"kind":"base","cat":"field","s":26,"e":32,"dates":"27 Sep – 03 Oct 2026"},{"kind":"base","cat":"sai","s":33,"e":39,"dates":"04 Oct – 10 Oct 2026"},{"kind":"base","cat":"field","s":40,"e":46,"dates":"11 Oct – 17 Oct 2026"},{"kind":"base","cat":"sai","s":47,"e":81,"dates":"18 Oct – 21 Nov 2026"},{"kind":"base","cat":"field","s":82,"e":88,"dates":"22 Nov – 28 Nov 2026"},{"kind":"base","cat":"sai","s":89,"e":95,"dates":"29 Nov – 05 Dec 2026"},{"kind":"base","cat":"field","s":96,"e":102,"dates":"06 Dec – 12 Dec 2026"},{"kind":"base","cat":"sai","s":103,"e":109,"dates":"13 Dec – 19 Dec 2026"},{"kind":"base","cat":"field","s":110,"e":116,"dates":"20 Dec – 26 Dec 2026"},{"kind":"base","cat":"sai","s":117,"e":121,"dates":"27 Dec – 31 Dec 2026"}],"markers":[]},{"id":"akhil","name":"Dr Akhil","role":"SR","tbd":0,"group":"SR","segments":[{"kind":"base","cat":"bar","s":0,"e":13,"dates":"01 Sep – 14 Sep 2026"},{"kind":"duty","cat":"cl5","s":14,"e":29,"dates":"15 Sep – 30 Sep 2026","sourceDutyId":"cl5-A","fullDates":"15 Sep – 06 Oct 2026","note":"Batch A · 15 Sep – 06 Oct · order dt 01/07/26","clipS":0,"clipE":0},{"kind":"duty","cat":"cl5","s":30,"e":35,"dates":"01 Oct – 06 Oct 2026","sourceDutyId":"cl5-A","fullDates":"15 Sep – 06 Oct 2026","note":"Batch A · 15 Sep – 06 Oct · order dt 01/07/26","clipS":0,"clipE":0},{"kind":"base","cat":"bar","s":36,"e":60,"dates":"07 Oct – 31 Oct 2026"},{"kind":"base","cat":"field","s":61,"e":67,"dates":"01 Nov – 07 Nov 2026"},{"kind":"duty","cat":"out","s":68,"e":74,"dates":"08 Nov – 14 Nov 2026","sourceDutyId":"van-w11-akhil","fullDates":"08 Nov – 14 Nov 2026","note":"Van week 08 – 14 Nov · with New JR 3","clipS":0,"clipE":0},{"kind":"base","cat":"field","s":75,"e":78,"dates":"15 Nov – 18 Nov 2026"},{"kind":"base","cat":"ipc","s":79,"e":90,"dates":"19 Nov – 30 Nov 2026"},{"kind":"base","cat":"bar","s":91,"e":121,"dates":"01 Dec – 31 Dec 2026"}],"markers":[]},{"id":"chaitra","name":"Dr Chaitra","role":"SR","tbd":0,"group":"SR","segments":[{"kind":"duty","cat":"fm9","s":0,"e":11,"dates":"01 Sep – 12 Sep 2026","sourceDutyId":"fm9-C","fullDates":"26 Aug – 12 Sep 2026","note":"Batch C · 26 Aug – 12 Sep · order dt 29/07/26","clipS":1,"clipE":0},{"kind":"base","cat":"ipc","s":12,"e":13,"dates":"13 Sep – 14 Sep 2026"},{"kind":"base","cat":"bar","s":14,"e":25,"dates":"15 Sep – 26 Sep 2026"},{"kind":"duty","cat":"out","s":26,"e":29,"dates":"27 Sep – 30 Sep 2026","sourceDutyId":"van-w5-chaitra","fullDates":"27 Sep – 03 Oct 2026","note":"Van week 27 Sep – 03 Oct","clipS":0,"clipE":0},{"kind":"duty","cat":"out","s":30,"e":32,"dates":"01 Oct – 03 Oct 2026","sourceDutyId":"van-w5-chaitra","fullDates":"27 Sep – 03 Oct 2026","note":"Van week 27 Sep – 03 Oct","clipS":0,"clipE":0},{"kind":"base","cat":"field","s":33,"e":35,"dates":"04 Oct – 06 Oct 2026"},{"kind":"duty","cat":"cl5","s":36,"e":56,"dates":"07 Oct – 27 Oct 2026","sourceDutyId":"cl5-B","fullDates":"07 Oct – 27 Oct 2026","note":"Batch B · 07 – 27 Oct · order dt 01/07/26","clipS":0,"clipE":0},{"kind":"base","cat":"field","s":57,"e":60,"dates":"28 Oct – 31 Oct 2026"},{"kind":"base","cat":"bar","s":61,"e":74,"dates":"01 Nov – 14 Nov 2026"},{"kind":"duty","cat":"out","s":75,"e":81,"dates":"15 Nov – 21 Nov 2026","sourceDutyId":"van-w12-chaitra","fullDates":"15 Nov – 21 Nov 2026","note":"Van week 15 – 21 Nov · with Dr Prerak","clipS":0,"clipE":0},{"kind":"base","cat":"bar","s":82,"e":90,"dates":"22 Nov – 30 Nov 2026"},{"kind":"base","cat":"ipc","s":91,"e":99,"dates":"01 Dec – 09 Dec 2026"},{"kind":"base","cat":"field","s":100,"e":121,"dates":"10 Dec – 31 Dec 2026"}],"markers":[]},{"id":"abhishek","name":"Dr Abhishek","role":"JR","tbd":0,"group":"JR","segments":[{"kind":"base","cat":"ipc","s":0,"e":60,"dates":"01 Sep – 31 Oct 2026"},{"kind":"base","cat":"field","s":61,"e":74,"dates":"01 Nov – 14 Nov 2026"},{"kind":"base","cat":"ipc","s":75,"e":77,"dates":"15 Nov – 17 Nov 2026"},{"kind":"base","cat":"field","s":78,"e":78,"dates":"18 Nov – 18 Nov 2026"},{"kind":"base","cat":"ipc","s":79,"e":81,"dates":"19 Nov – 21 Nov 2026"},{"kind":"base","cat":"field","s":82,"e":88,"dates":"22 Nov – 28 Nov 2026"},{"kind":"duty","cat":"out","s":89,"e":95,"dates":"29 Nov – 05 Dec 2026","sourceDutyId":"van-w14-abhishek","fullDates":"29 Nov – 05 Dec 2026","note":"Van week 29 Nov – 05 Dec · with Dr Kiranmayi","clipS":0,"clipE":0},{"kind":"base","cat":"field","s":96,"e":121,"dates":"06 Dec – 31 Dec 2026"}],"markers":[]},{"id":"prerak","name":"Dr Prerak","role":"JR","tbd":0,"group":"JR","segments":[{"kind":"base","cat":"field","s":0,"e":0,"dates":"01 Sep – 01 Sep 2026"},{"kind":"duty","cat":"out","s":1,"e":1,"dates":"02 Sep – 02 Sep 2026","sourceDutyId":"van-w1-manvinder","fullDates":"30 Aug – 05 Sep 2026","note":"YF Wednesday — van day transferred · covering for Dr Manvinder","clipS":0,"clipE":0,"transfer":1,"coveredFor":"Dr Manvinder"},{"kind":"base","cat":"field","s":2,"e":4,"dates":"03 Sep – 05 Sep 2026"},{"kind":"duty","cat":"out","s":5,"e":11,"dates":"06 Sep – 12 Sep 2026","sourceDutyId":"van-w2-prerak","fullDates":"06 Sep – 12 Sep 2026","note":"Van week 06 – 12 Sep","clipS":0,"clipE":0},{"kind":"base","cat":"field","s":12,"e":18,"dates":"13 Sep – 19 Sep 2026"},{"kind":"base","cat":"ipc","s":19,"e":29,"dates":"20 Sep – 30 Sep 2026"},{"kind":"base","cat":"field","s":30,"e":35,"dates":"01 Oct – 06 Oct 2026"},{"kind":"duty","cat":"out","s":36,"e":36,"dates":"07 Oct – 07 Oct 2026","sourceDutyId":"van-w6-manvinder","fullDates":"04 Oct – 10 Oct 2026","note":"YF Wednesday — van day transferred · covering for Dr Manvinder","clipS":0,"clipE":0,"transfer":1,"coveredFor":"Dr Manvinder"},{"kind":"base","cat":"field","s":37,"e":60,"dates":"08 Oct – 31 Oct 2026"},{"kind":"base","cat":"ipc","s":61,"e":74,"dates":"01 Nov – 14 Nov 2026"},{"kind":"duty","cat":"out","s":75,"e":77,"dates":"15 Nov – 17 Nov 2026","sourceDutyId":"van-w12-prerak","fullDates":"15 Nov – 21 Nov 2026","note":"Van week 15 – 21 Nov · with Dr Chaitra","clipS":0,"clipE":0},{"kind":"base","cat":"ipc","s":78,"e":78,"dates":"18 Nov – 18 Nov 2026"},{"kind":"duty","cat":"out","s":79,"e":81,"dates":"19 Nov – 21 Nov 2026","sourceDutyId":"van-w12-prerak","fullDates":"15 Nov – 21 Nov 2026","note":"Van week 15 – 21 Nov · with Dr Chaitra","clipS":0,"clipE":0},{"kind":"base","cat":"ipc","s":82,"e":121,"dates":"22 Nov – 31 Dec 2026"}],"markers":[]},{"id":"prakhar","name":"Dr Prakhar","role":"JR","tbd":0,"group":"JR","segments":[{"kind":"base","cat":"ipc","s":0,"e":0,"dates":"01 Sep – 01 Sep 2026"},{"kind":"base","cat":"field","s":1,"e":1,"dates":"02 Sep – 02 Sep 2026"},{"kind":"base","cat":"ipc","s":2,"e":4,"dates":"03 Sep – 05 Sep 2026"},{"kind":"base","cat":"field","s":5,"e":46,"dates":"06 Sep – 17 Oct 2026"},{"kind":"duty","cat":"out","s":47,"e":53,"dates":"18 Oct – 24 Oct 2026","sourceDutyId":"van-w8-prakhar","fullDates":"18 Oct – 24 Oct 2026","note":"Van week 18 – 24 Oct","clipS":0,"clipE":0},{"kind":"base","cat":"field","s":54,"e":121,"dates":"25 Oct – 31 Dec 2026"}],"markers":[]},{"id":"athira","name":"Dr Athira","role":"JR","tbd":0,"group":"JR","segments":[{"kind":"base","cat":"sai","s":0,"e":13,"dates":"01 Sep – 14 Sep 2026"},{"kind":"base","cat":"field","s":14,"e":18,"dates":"15 Sep – 19 Sep 2026"},{"kind":"duty","cat":"out","s":19,"e":25,"dates":"20 Sep – 26 Sep 2026","sourceDutyId":"van-w4-athira","fullDates":"20 Sep – 26 Sep 2026","note":"Van week 20 – 26 Sep · with Dr Kiranmayi","clipS":0,"clipE":0},{"kind":"base","cat":"field","s":26,"e":29,"dates":"27 Sep – 30 Sep 2026"},{"kind":"base","cat":"nhm","s":30,"e":90,"dates":"01 Oct – 30 Nov 2026"},{"kind":"base","cat":"field","s":91,"e":121,"dates":"01 Dec – 31 Dec 2026"}],"markers":[]},{"id":"angel","name":"Dr Angel","role":"JR","tbd":0,"group":"JR","segments":[{"kind":"base","cat":"field","s":0,"e":53,"dates":"01 Sep – 24 Oct 2026"},{"kind":"duty","cat":"out","s":54,"e":60,"dates":"25 Oct – 31 Oct 2026","sourceDutyId":"van-w9-angel","fullDates":"25 Oct – 31 Oct 2026","note":"Van week 25 – 31 Oct","clipS":0,"clipE":0},{"kind":"base","cat":"field","s":61,"e":121,"dates":"01 Nov – 31 Dec 2026"}],"markers":[]},{"id":"chhavi","name":"Dr Chhavi","role":"JR","tbd":0,"group":"JR","segments":[{"kind":"base","cat":"field","s":0,"e":81,"dates":"01 Sep – 21 Nov 2026"},{"kind":"duty","cat":"out","s":82,"e":88,"dates":"22 Nov – 28 Nov 2026","sourceDutyId":"van-w13-chhavi","fullDates":"22 Nov – 28 Nov 2026","note":"Van week 22 – 28 Nov","clipS":0,"clipE":0},{"kind":"base","cat":"field","s":89,"e":121,"dates":"29 Nov – 31 Dec 2026"}],"markers":[]},{"id":"njr3","name":"New JR 3","role":"JR","tbd":1,"group":"JR","segments":[{"kind":"base","cat":"field","s":0,"e":67,"dates":"01 Sep – 07 Nov 2026"},{"kind":"duty","cat":"out","s":68,"e":74,"dates":"08 Nov – 14 Nov 2026","sourceDutyId":"van-w11-njr3","fullDates":"08 Nov – 14 Nov 2026","note":"Van week 08 – 14 Nov · with Dr Akhil","clipS":0,"clipE":0},{"kind":"base","cat":"field","s":75,"e":121,"dates":"15 Nov – 31 Dec 2026"}],"markers":[]}],"staffing":[{"date":"02 Sep 2026","attendees":["Dr Manvinder","Dr Abhishek"]},{"date":"09 Sep 2026","attendees":["Dr Manvinder","Dr Abhishek"]},{"date":"16 Sep 2026","attendees":["Dr Kiranmayi","Dr Abhishek"]},{"date":"23 Sep 2026","attendees":["Dr Prerak","Dr Abhishek"]},{"date":"30 Sep 2026","attendees":["Dr Prerak","Dr Abhishek"]},{"date":"07 Oct 2026","attendees":["Dr Manvinder","Dr Abhishek"]},{"date":"14 Oct 2026","attendees":["Dr Manvinder","Dr Abhishek"]},{"date":"21 Oct 2026","attendees":["Dr Kiranmayi","Dr Abhishek"]},{"date":"28 Oct 2026","attendees":["Dr Manvinder","Dr Abhishek"]},{"date":"04 Nov 2026","attendees":["Dr Manvinder","Dr Prerak"]},{"date":"11 Nov 2026","attendees":["Dr Manvinder","Dr Prerak"]},{"date":"18 Nov 2026","attendees":["Dr Manvinder","Dr Prerak"]},{"date":"25 Nov 2026","attendees":["Dr Akhil","Dr Prerak"]},{"date":"02 Dec 2026","attendees":["Dr Chaitra","Dr Prerak"]},{"date":"09 Dec 2026","attendees":["Dr Chaitra","Dr Prerak"]},{"date":"16 Dec 2026","attendees":["Dr Manvinder","Dr Prerak"]},{"date":"23 Dec 2026","attendees":["Dr Manvinder","Dr Prerak"]},{"date":"30 Dec 2026","attendees":["Dr Manvinder","Dr Prerak"]}],"covers":{"transfers":[{"day":1,"date":"02 Sep 2026","sourceDutyId":"van-w1-manvinder","what":"outreach van day","from":"Dr Manvinder","to":"Dr Prerak","note":"YF Wednesday — van day transferred"},{"day":36,"date":"07 Oct 2026","sourceDutyId":"van-w6-manvinder","what":"outreach van day","from":"Dr Manvinder","to":"Dr Prerak","note":"YF Wednesday — van day transferred"},{"day":0,"date":"01 Sep 2026","sourceDutyId":"cl5-E","what":"MBBS batch session (10 am–1 pm)","from":"Dr Pooja","to":"Dr Kiranmayi","note":"Batch E session — Dr Pooja on leave"},{"day":1,"date":"02 Sep 2026","sourceDutyId":"cl5-E","what":"MBBS batch session (10 am–1 pm)","from":"Dr Pooja","to":"Dr Kiranmayi","note":"Batch E session — Dr Pooja on leave"},{"day":2,"date":"03 Sep 2026","sourceDutyId":"cl5-E","what":"MBBS batch session (10 am–1 pm)","from":"Dr Pooja","to":"Dr Kiranmayi","note":"Batch E session — Dr Pooja on leave"},{"day":3,"date":"04 Sep 2026","sourceDutyId":"cl5-E","what":"MBBS batch session (10 am–1 pm)","from":"Dr Pooja","to":"Dr Kiranmayi","note":"Batch E session — Dr Pooja on leave"},{"day":4,"date":"05 Sep 2026","sourceDutyId":"cl5-E","what":"MBBS batch session (10 am–1 pm)","from":"Dr Pooja","to":"Dr Kiranmayi","note":"Batch E session — Dr Pooja on leave"},{"day":6,"date":"07 Sep 2026","sourceDutyId":"cl5-E","what":"MBBS batch session (10 am–1 pm)","from":"Dr Pooja","to":"Dr Kiranmayi","note":"Batch E session — Dr Pooja on leave"},{"day":7,"date":"08 Sep 2026","sourceDutyId":"cl5-E","what":"MBBS batch session (10 am–1 pm)","from":"Dr Pooja","to":"Dr Kiranmayi","note":"Batch E session — Dr Pooja on leave"},{"day":8,"date":"09 Sep 2026","sourceDutyId":"cl5-E","what":"MBBS batch session (10 am–1 pm)","from":"Dr Pooja","to":"Dr Kiranmayi","note":"Batch E session — Dr Pooja on leave"},{"day":9,"date":"10 Sep 2026","sourceDutyId":"cl5-E","what":"MBBS batch session (10 am–1 pm)","from":"Dr Pooja","to":"Dr Kiranmayi","note":"Batch E session — Dr Pooja on leave"},{"day":10,"date":"11 Sep 2026","sourceDutyId":"cl5-E","what":"MBBS batch session (10 am–1 pm)","from":"Dr Pooja","to":"Dr Kiranmayi","note":"Batch E session — Dr Pooja on leave"},{"day":11,"date":"12 Sep 2026","sourceDutyId":"cl5-E","what":"MBBS batch session (10 am–1 pm)","from":"Dr Pooja","to":"Dr Kiranmayi","note":"Batch E session — Dr Pooja on leave"},{"day":13,"date":"14 Sep 2026","sourceDutyId":"cl5-E","what":"MBBS batch session (10 am–1 pm)","from":"Dr Pooja","to":"Dr Kiranmayi","note":"Batch E session — Dr Pooja on leave"}],"ipcCovers":[{"day":0,"date":"01 Sep 2026","resident":"Dr Prakhar","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":2,"date":"03 Sep 2026","resident":"Dr Prakhar","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":3,"date":"04 Sep 2026","resident":"Dr Prakhar","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":4,"date":"05 Sep 2026","resident":"Dr Prakhar","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":12,"date":"13 Sep 2026","resident":"Dr Chaitra","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":13,"date":"14 Sep 2026","resident":"Dr Chaitra","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":14,"date":"15 Sep 2026","resident":"Dr Kiranmayi","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":15,"date":"16 Sep 2026","resident":"Dr Kiranmayi","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":16,"date":"17 Sep 2026","resident":"Dr Kiranmayi","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":17,"date":"18 Sep 2026","resident":"Dr Kiranmayi","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":18,"date":"19 Sep 2026","resident":"Dr Kiranmayi","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":19,"date":"20 Sep 2026","resident":"Dr Prerak","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":20,"date":"21 Sep 2026","resident":"Dr Prerak","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":21,"date":"22 Sep 2026","resident":"Dr Prerak","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":22,"date":"23 Sep 2026","resident":"Dr Prerak","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":23,"date":"24 Sep 2026","resident":"Dr Prerak","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":24,"date":"25 Sep 2026","resident":"Dr Prerak","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":25,"date":"26 Sep 2026","resident":"Dr Prerak","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":26,"date":"27 Sep 2026","resident":"Dr Prerak","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":27,"date":"28 Sep 2026","resident":"Dr Prerak","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":28,"date":"29 Sep 2026","resident":"Dr Prerak","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":29,"date":"30 Sep 2026","resident":"Dr Prerak","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":33,"date":"04 Oct 2026","resident":"Dr Kiranmayi","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":34,"date":"05 Oct 2026","resident":"Dr Kiranmayi","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":35,"date":"06 Oct 2026","resident":"Dr Kiranmayi","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":37,"date":"08 Oct 2026","resident":"Dr Kiranmayi","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":38,"date":"09 Oct 2026","resident":"Dr Kiranmayi","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":39,"date":"10 Oct 2026","resident":"Dr Kiranmayi","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":50,"date":"21 Oct 2026","resident":"Dr Kiranmayi","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":51,"date":"22 Oct 2026","resident":"Dr Kiranmayi","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":52,"date":"23 Oct 2026","resident":"Dr Kiranmayi","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":53,"date":"24 Oct 2026","resident":"Dr Kiranmayi","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":54,"date":"25 Oct 2026","resident":"Dr Kiranmayi","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":55,"date":"26 Oct 2026","resident":"Dr Kiranmayi","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":56,"date":"27 Oct 2026","resident":"Dr Kiranmayi","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":75,"date":"15 Nov 2026","resident":"Dr Abhishek","slot":"jr","what":"IPC cover · holding the JR slot for the serving IPC JR (outreach van that week)"},{"day":76,"date":"16 Nov 2026","resident":"Dr Abhishek","slot":"jr","what":"IPC cover · holding the JR slot for the serving IPC JR (outreach van that week)"},{"day":77,"date":"17 Nov 2026","resident":"Dr Abhishek","slot":"jr","what":"IPC cover · holding the JR slot for the serving IPC JR (outreach van that week)"},{"day":79,"date":"19 Nov 2026","resident":"Dr Akhil","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":79,"date":"19 Nov 2026","resident":"Dr Abhishek","slot":"jr","what":"IPC cover · holding the JR slot for the serving IPC JR (outreach van that week)"},{"day":80,"date":"20 Nov 2026","resident":"Dr Akhil","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":80,"date":"20 Nov 2026","resident":"Dr Abhishek","slot":"jr","what":"IPC cover · holding the JR slot for the serving IPC JR (outreach van that week)"},{"day":81,"date":"21 Nov 2026","resident":"Dr Akhil","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":81,"date":"21 Nov 2026","resident":"Dr Abhishek","slot":"jr","what":"IPC cover · holding the JR slot for the serving IPC JR (outreach van that week)"},{"day":82,"date":"22 Nov 2026","resident":"Dr Akhil","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":83,"date":"23 Nov 2026","resident":"Dr Akhil","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":84,"date":"24 Nov 2026","resident":"Dr Akhil","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":85,"date":"25 Nov 2026","resident":"Dr Akhil","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":86,"date":"26 Nov 2026","resident":"Dr Akhil","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":87,"date":"27 Nov 2026","resident":"Dr Akhil","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":88,"date":"28 Nov 2026","resident":"Dr Akhil","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":89,"date":"29 Nov 2026","resident":"Dr Akhil","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":90,"date":"30 Nov 2026","resident":"Dr Akhil","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":91,"date":"01 Dec 2026","resident":"Dr Chaitra","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":92,"date":"02 Dec 2026","resident":"Dr Chaitra","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":93,"date":"03 Dec 2026","resident":"Dr Chaitra","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":94,"date":"04 Dec 2026","resident":"Dr Chaitra","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":95,"date":"05 Dec 2026","resident":"Dr Chaitra","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":96,"date":"06 Dec 2026","resident":"Dr Chaitra","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":97,"date":"07 Dec 2026","resident":"Dr Chaitra","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":98,"date":"08 Dec 2026","resident":"Dr Chaitra","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"},{"day":99,"date":"09 Dec 2026","resident":"Dr Chaitra","slot":"sr","what":"IPC cover · holding the SR slot for Dr Manvinder (teaching/leave/van that day)"}],"exclusions":[{"day":78,"date":"18 Nov 2026","sourceDutyId":"van-w12-prerak","from":"Dr Prerak","reason":"YF Wednesday — van day absorbed by van crew (Dr Chaitra)"},{"day":5,"date":"06 Sep 2026","sourceDutyId":"cl5-E","from":"Dr Pooja","reason":"Sunday"},{"day":12,"date":"13 Sep 2026","sourceDutyId":"cl5-E","from":"Dr Pooja","reason":"Sunday (weekly off; Dr Pooja resumes at Saibaba 15 Sep)"}]},"clipBars":["Dr Manvinder · van-w1-manvinder","Dr Chaitra · fm9-C"]};
+/*__DATA_END__*/
+
+  const N = DATA.N;
+  const CAT = {
+    ipc:   { sw: 'ipc',   ink: 'dark',  short: 'IPC',           kb: 'Area 1',           kd: 'IPC',                       label: 'Area 1 · IPC' },
+    sai:   { sw: 'sai',   ink: 'dark',  short: 'PHC Saibaba',   kb: 'Area 2',           kd: 'PHC Saibaba',               label: 'Area 2 · PHC Saibaba' },
+    bar:   { sw: 'bar',   ink: 'dark',  short: 'PHC Barkheda',  kb: 'Area 3',           kd: 'PHC Barkheda',              label: 'Area 3 · PHC Barkheda' },
+    nhm:   { sw: 'nhm',   ink: 'light', short: 'NHM',           kb: 'NHM',              kd: 'National Health Mission',   label: 'NHM · National Health Mission' },
+    field: { sw: 'field', ink: 'light', short: 'Field',         kb: 'Field Activities', kd: 'fieldwork & exigencies',    label: 'Field Activities · fieldwork & exigencies' },
+    leave: { sw: 'leave', ink: 'light', short: 'Leave',         kb: 'Leave',            kd: 'approved leave',            label: 'On approved leave' },
+    off:   { sw: 'off',   ink: 'light', short: 'Off',           kb: 'Weekly off',       kd: 'Sunday',                    label: 'Weekly off (Sunday)' },
+    fm9:   { sw: 'fm9',   ink: 'light', short: '9th Sem',       kb: '9th Sem FM',       kd: 'UG teaching, 10 am–1 pm',   label: 'UG teaching · MBBS 9th Sem Family Medicine (10 am–1 pm)' },
+    cl5:   { sw: 'cl5',   ink: 'dark',  short: '5th Sem',       kb: '5th Sem Clinical', kd: 'UG teaching, 10 am–1 pm',   label: 'UG teaching · MBBS 5th Sem Clinical (10 am–1 pm)' },
+    out:   { sw: 'out',   ink: 'dark',  short: 'Outreach',      kb: 'Outreach van',     kd: 'Sun–Sat week',              label: 'Outreach mobile-van week (Sun–Sat)' },
+  };
+  const fill = k => 'var(--c-' + CAT[k].sw + ')';
+  const inkOf = k => CAT[k].ink === 'light' ? 'var(--ci-light)' : 'var(--ci-dark)';
+
+  // ---------------- legend ----------------
+  // No marker key — the Wednesday diamonds are retired; IPC attendance is
+  // carried entirely by IPC base bars (principals and covers).
+  const legend = document.getElementById('legend');
+  const legendGroup = (title, keys, duty) => {
+    const g = document.createElement('div'); g.className = 'legend-group';
+    g.innerHTML = '<span class="legend-title">' + title + '</span>' + keys.map(k =>
+      '<span class="key"><span class="sw' + (duty ? ' duty' : '') + '" style="--fill:' + fill(k) + '"></span><b>' +
+        CAT[k].kb + '</b>&nbsp;· ' + CAT[k].kd + '</span>'
+    ).join('');
+    legend.appendChild(g);
+  };
+  legendGroup('Base posting — solid', ['ipc', 'sai', 'bar', 'nhm', 'field'], false);
+  legendGroup('Absence', ['leave', 'off'], false);
+  legendGroup('Duty — striped (dark ring = transferred cover)', ['fm9', 'cl5', 'out'], true);
+
+  // ---------------- chart ----------------
+  const canvas = document.getElementById('canvas');
+  const pct = v => (v / N * 100).toFixed(4) + '%';
+  const MINW = 1048 / N;
+  const dateOf = i => new Date(Date.UTC(2026, 8, 1 + i));
+
+  const gridlayer = document.createElement('div'); gridlayer.className = 'gridlayer';
+  for (let i = 1; i < N; i++) {
+    const sun = dateOf(i).getUTCDay() === 0, m1 = dateOf(i).getUTCDate() === 1;
+    if (!sun && !m1) continue;
+    const l = document.createElement('div');
+    l.className = 'gl' + (m1 ? ' month' : '');
+    l.style.left = pct(i);
+    gridlayer.appendChild(l);
+  }
+  canvas.appendChild(gridlayer);
+
+  const axis = document.createElement('div'); axis.className = 'crow axisrow';
+  axis.innerHTML = '<div class="name-cell">Resident</div>';
+  const axlane = document.createElement('div'); axlane.className = 'lane';
+  const months = document.createElement('div'); months.className = 'months';
+  DATA.months.forEach(([nm, d]) => {
+    const s = document.createElement('div'); s.className = 'month-seg';
+    s.style.width = (d / N * 100) + '%'; s.textContent = nm; months.appendChild(s);
+  });
+  const ticks = document.createElement('div'); ticks.className = 'ticks';
+  for (let i = 0; i < N; i++) {
+    const dt = dateOf(i);
+    if (dt.getUTCDay() !== 0 && dt.getUTCDate() !== 1) continue;
+    const t = document.createElement('span'); t.className = 'tick';
+    t.style.left = pct(i); t.textContent = dt.getUTCDate();
+    ticks.appendChild(t);
+  }
+  axlane.appendChild(months); axlane.appendChild(ticks); axis.appendChild(axlane);
+  canvas.appendChild(axis);
+
+  const tip = document.getElementById('tip');
+  const showTip = (el, x, y) => {
+    const d = el.dataset;
+    tip.innerHTML =
+      '<div class="t-name">' + d.name + ' <span style="color:var(--muted);font-weight:500">(' + d.role + ')</span></div>' +
+      '<div class="t-cat"><span class="sw' + (d.duty ? ' duty' : '') + '" style="--fill:' + fill(d.cat) + '"></span>' + CAT[d.cat].label + '</div>' +
+      '<div class="t-dates">' + (d.full ? 'Shown: ' + d.dates + '<br>Full duty: ' + d.full : d.dates) + '</div>' +
+      (d.note ? '<div class="t-note">' + d.note + '</div>' : '');
+    tip.classList.add('show');
+    const r = tip.getBoundingClientRect();
+    tip.style.left = Math.min(x + 14, innerWidth - r.width - 10) + 'px';
+    tip.style.top = Math.min(y + 16, innerHeight - r.height - 10) + 'px';
+  };
+  const hideTip = () => tip.classList.remove('show');
+  const wireTip = (el) => {
+    el.tabIndex = 0;
+    el.addEventListener('mousemove', e => showTip(el, e.clientX, e.clientY));
+    el.addEventListener('mouseleave', hideTip);
+    el.addEventListener('focus', () => { const rc = el.getBoundingClientRect(); showTip(el, rc.left, rc.bottom); });
+    el.addEventListener('blur', hideTip);
+  };
+
+  const mkBar = (r, b) => {
+    const duty = b.kind === 'duty';
+    const el = document.createElement('div');
+    const days = b.e - b.s + 1;
+    el.className = 'bar ' + (duty ? 'duty' : 'base') + (b.transfer ? ' transfer' : '') + (b.overlay ? ' overlay' : '') + (b.clipS ? ' clip-s' : '') + (b.clipE ? ' clip-e' : '');
+    el.style.left = 'calc(' + pct(b.s) + ' + 1px)';
+    el.style.width = 'calc(' + pct(days) + ' - 2px)';
+    el.style.setProperty('--fill', fill(b.cat));
+    el.style.color = inkOf(b.cat);
+    const label = CAT[b.cat].short;
+    // an overlay bar never carries a text label — the base bar beneath keeps its own
+    const fits = !b.overlay && days * MINW >= label.length * 6.2 + 14 + ((b.clipS || b.clipE) ? 10 : 0);
+    el.innerHTML = (b.clipS ? '<span class="cont s">‹</span>' : '') +
+      (fits ? '<span>' + label + '</span>' : '') +
+      (b.clipE ? '<span class="cont e">›</span>' : '');
+    el.setAttribute('role', 'img');
+    el.setAttribute('aria-label', r.name + ', ' + CAT[b.cat].label + ', ' + b.dates +
+      (b.fullDates ? ' (full duty ' + b.fullDates + ')' : '') + (b.coveredFor ? ', covering for ' + b.coveredFor : '') + (b.note ? '. ' + b.note : ''));
+    Object.assign(el.dataset, { name: r.name, role: r.role, cat: b.cat, dates: b.dates, full: b.fullDates || '', note: b.note || '', duty: duty ? '1' : '' });
+    wireTip(el);
+    return el;
+  };
+
+  const addGroup = label => {
+    const g = document.createElement('div'); g.className = 'crow grouprow';
+    g.innerHTML = '<div class="name-cell"><span class="glabel">' + label + '</span></div><div class="lane"></div>';
+    canvas.appendChild(g);
+  };
+  const addRow = (r) => {
+    const row = document.createElement('div'); row.className = 'crow r';
+    const nc = document.createElement('div');
+    nc.className = 'name-cell' + (r.tbd ? ' tbd' : '');
+    nc.innerHTML = r.name + (r.tbd ? '' : '<span class="role">(' + r.role + ')</span>');
+    const lane = document.createElement('div'); lane.className = 'lane';
+    r.segments.forEach(b => lane.appendChild(mkBar(r, b)));
+    row.appendChild(nc); row.appendChild(lane);
+    canvas.appendChild(row);
+  };
+  addGroup('Senior Residents · ' + DATA.residents.filter(r => r.group === 'SR').length);
+  DATA.residents.filter(r => r.group === 'SR').forEach(addRow);
+  addGroup('Junior Residents · ' + DATA.residents.filter(r => r.group === 'JR').length);
+  DATA.residents.filter(r => r.group === 'JR').forEach(addRow);
+
+  // ---------------- table view ----------------
+  const tbl = document.getElementById('dtable');
+  let html = '<thead><tr><th>Resident</th><th>Posting / duty</th><th>Dates</th><th>Notes</th></tr></thead><tbody>';
+  ['SR', 'JR'].forEach(g => {
+    html += '<tr class="grp"><td colspan="4">' + (g === 'SR' ? 'Senior Residents' : 'Junior Residents') + '</td></tr>';
+    DATA.residents.filter(r => r.group === g).forEach(r => {
+      r.segments.forEach((b, i) => {
+        const duty = b.kind === 'duty';
+        html += '<tr>' +
+          '<td class="res">' + (i === 0 ? r.name + ' <span style="color:var(--muted);font-weight:500">(' + r.role + ')</span>' : '') + '</td>' +
+          '<td><span class="chip"><span class="sw' + (duty ? ' duty' : '') + '" style="--fill:' + fill(b.cat) + '"></span>' + CAT[b.cat].label + (b.transfer ? (b.overlay ? ' <b>(cover · alongside base posting)</b>' : ' <b>(cover)</b>') : '') + '</span></td>' +
+          '<td class="dates">' + b.dates + (b.clipS || b.clipE ? ' *' : '') + '</td>' +
+          '<td class="note">' + (b.fullDates && b.dates !== b.fullDates ? 'Full duty ' + b.fullDates + (b.note ? ' · ' + b.note : '') : (b.note || '—')) + '</td></tr>';
+      });
+    });
+  });
+  html += '</tbody>';
+  tbl.innerHTML = html;
+</script>
+</body>
+</html>
