@@ -91,10 +91,11 @@
   .bar:focus-visible { outline: 2px solid var(--ink); }
   .bar.duty { background: repeating-linear-gradient(135deg, rgba(11,11,11,0.16) 0 4px, transparent 4px 8px), var(--fill); }
   .bar.transfer { box-shadow: inset 0 0 0 2px rgba(11,11,11,0.4); }
-  /* See-through overlay: a transferred duty conducted ON TOP of the base
-     posting — striped in the duty colour with transparent gaps, so the base
-     bar beneath stays visible. Drawn after (above) the base bar. */
-  .bar.overlay { background: repeating-linear-gradient(135deg, var(--fill) 0 4px, transparent 4px 8px); }
+  /* Concurrent transferred duty: a slim striped ribbon floating just ABOVE the
+     base bar on those days, so the base posting bar (and its label) stays fully
+     visible beneath it — nothing is painted over the base bar itself. */
+  .bar.overlay { top: 4px; height: 8px; border-radius: 2px; padding: 0; }
+  .bar.overlay.transfer { box-shadow: inset 0 0 0 1px rgba(11,11,11,0.4); }
   .bar .cont { font-weight: 700; opacity: 0.9; }
   .bar .cont.s { margin-right: 3px; }
   .bar .cont.e { margin-left: auto; padding-left: 3px; }
@@ -159,6 +160,7 @@
     .name-cell { position: static; }
     .r .lane { height: 44px; }
     .bar { top: 10px; transition: none; }
+    .bar.overlay { top: 1px; }
     .crow { break-inside: avoid; }
     .tip { display: none !important; }
     details.tableview:not([open]) { display: none; }
@@ -203,10 +205,10 @@
 
   <h2 class="section-title">Notes</h2>
   <ol class="notes">
-    <li>Bars show each resident's <b>primary allocation</b> per day — <b>solid</b> = base posting, <b>striped</b> = duty (UG teaching or outreach van); a <b>dark-ringed striped bar</b> is a duty day transferred in from another resident, and a <b>see-through striped bar</b> is a transferred duty conducted on top of the base posting still visible beneath it (the one concurrent case in this window: Dr Kiranmayi's Batch E sessions on her Saibaba days — see note 4). <b>IPC is staffed by TWO residents every day</b> — Dr Manvinder (SR) with a Junior Resident rotating monthly per the departmental roster (Dr Abhishek: September–October; Dr Prerak: November–December). When either of the pair is on approved teaching, outreach-van or leave duty, a named cover holds that slot for the whole day (the blue IPC blocks on the covers' rows); on 01 &amp; 03–05 Sep and 20–30 Sep no Senior Resident is free (other centres, teaching, van or leave), so both IPC slots are held by Junior Residents on those 15 days. <b>PHC Saibaba rotates WEEKLY (Sun–Sat)</b> between Dr Kiranmayi &amp; Dr Pooja — a week blocked by van/teaching/leave passes to the other (both blocked → a Field Activities JR looped in temporarily; never needed in this window). PHC Barkheda rotates monthly between Dr Chaitra &amp; Dr Akhil; within September, Dr Akhil holds 01–14 Sep and Dr Chaitra 15–30 Sep (see note 4).</li>
+    <li>Bars show each resident's <b>primary allocation</b> per day — <b>solid</b> = base posting, <b>striped</b> = duty (UG teaching or outreach van); a <b>dark-ringed striped bar</b> is a duty day transferred in from another resident, and a <b>slim striped ribbon riding just above a bar</b> is a transferred duty conducted alongside the base posting, which stays fully visible beneath it (the one concurrent case in this window: Dr Kiranmayi's Batch E sessions on her Saibaba days — see note 4). <b>IPC is staffed by TWO residents every day</b> — Dr Manvinder (SR) with a Junior Resident rotating monthly per the departmental roster (Dr Abhishek: September–October; Dr Prerak: November–December). When either of the pair is on approved teaching, outreach-van or leave duty, a named cover holds that slot for the whole day (the blue IPC blocks on the covers' rows); on 01 &amp; 03–05 Sep and 20–30 Sep no Senior Resident is free (other centres, teaching, van or leave), so both IPC slots are held by Junior Residents on those 15 days. <b>PHC Saibaba rotates WEEKLY (Sun–Sat)</b> between Dr Kiranmayi &amp; Dr Pooja — a week blocked by van/teaching/leave passes to the other (both blocked → a Field Activities JR looped in temporarily; never needed in this window). PHC Barkheda rotates monthly between Dr Chaitra &amp; Dr Akhil; within September, Dr Akhil holds 01–14 Sep and Dr Chaitra 15–30 Sep (see note 4).</li>
     <li>MBBS teaching is ONE Senior Resident per batch (orders dt 29/07/26 &amp; 01/07/26); PGs from Field Activities aid as per requirement — no PG is ever the sole teacher.</li>
     <li><b>Yellow Fever Wednesdays at IPC — attendees are the day's two IPC residents.</b> Dr Manvinder attends alongside the serving IPC JR on his eleven free Wednesdays; on his van-week Wednesdays the van day is covered by a JR (02 Sep — Dr Prakhar; 07 Oct — Dr Prerak) and he attends; on his batch-session and leave Wednesdays the day's IPC cover attends in his place: 16 Sep &amp; 21 Oct — Dr Kiranmayi; 23 &amp; 30 Sep — Dr Prerak; 25 Nov — Dr Akhil; 02 &amp; 09 Dec — Dr Chaitra. On 18 Nov Dr Prerak's van day is absorbed by the van crew (Dr Chaitra) and he attends IPC. The serving IPC JR is never on field or van duty on a Wednesday of his serving months.</li>
-    <li><b>Dr Pooja:</b> on approved leave 01–14 Sep (extended 28.08.2026); she resumes at PHC Saibaba from 15 Sep. <b>Dr Kiranmayi covers her for the entire leave</b> — holding Saibaba 01–14 Sep and conducting every Batch E session (01–05, 07–12 &amp; 14 Sep — the see-through striped overlays on her Saibaba bar), with <b>Dr Athira (JR) officially posted to Saibaba 01–14 Sep</b> providing centre support during the 10 am–1 pm sessions. <b>Dr Akhil holds PHC Barkheda 01–14 Sep</b>; Dr Chaitra is Field-based those days, takes the 13–14 Sep IPC cover once her Batch C teaching ends 12 Sep, and resumes Barkheda from 15 Sep. <b>Dr Prakhar covers Dr Manvinder's 02 Sep van day</b> — Dr Prerak is on approved leave 01–03 Sep and holds the 06–12 Sep van week on return.</li>
+    <li><b>Dr Pooja:</b> on approved leave 01–14 Sep (extended 28.08.2026); she resumes at PHC Saibaba from 15 Sep. <b>Dr Kiranmayi covers her for the entire leave</b> — holding Saibaba 01–14 Sep and conducting every Batch E session (01–05, 07–12 &amp; 14 Sep — the slim striped ribbons above her Saibaba bar), with <b>Dr Athira (JR) officially posted to Saibaba 01–14 Sep</b> providing centre support during the 10 am–1 pm sessions. <b>Dr Akhil holds PHC Barkheda 01–14 Sep</b>; Dr Chaitra is Field-based those days, takes the 13–14 Sep IPC cover once her Batch C teaching ends 12 Sep, and resumes Barkheda from 15 Sep. <b>Dr Prakhar covers Dr Manvinder's 02 Sep van day</b> — Dr Prerak is on approved leave 01–03 Sep and holds the 06–12 Sep van week on return.</li>
     <li>A squared bar end with ‹ marks a duty that <b>began before the chart window</b> — two bars: 9th Sem Batch C (from 26 Aug) and Dr Manvinder's van week (from 30 Aug). No duty extends past 31 Dec.</li>
     <li>The newly allotted Junior Residents <b>Dr Angel</b>, <b>Dr Chhavi</b>, <b>Dr Sahil</b> and <b>Dr Yash</b> are shown by name. NHM (National Health Mission): Dr Athira, October–November 2026. Only CUHA-unit outreach weeks are shown (rosters Sep–Nov 2026); the December 2026 outreach roster is to be issued.</li>
   </ol>
