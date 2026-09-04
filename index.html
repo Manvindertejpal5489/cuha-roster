@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>/* theme: apply the remembered choice before first paint */try{var t=localStorage.getItem('rpt-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Resident Posting Timelines · CUHA, CRHA, Interns &amp; Nursing</title>
 <meta name="description" content="Posting timelines for the Community Urban Health Area (CUHA), the Community Rural Health Area (CRHA), the Intern 2021 Batch rotation and nursing student postings, Department of Community and Family Medicine — 2026–27.">
 <meta name="roster-version" content="v19">
@@ -208,6 +210,13 @@
   .card .meta { margin: 0; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; line-height: 1.7; color: var(--ink-2); font-variant-numeric: tabular-nums; }
   .card .cta { margin: 14px 0 0; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); }
   .home-note { margin: 22px 0 0; color: var(--muted); font-size: 12px; }
+  header .masthead { justify-content: space-between; align-items: flex-start; }
+  .theme { display: inline-flex; border: 1px solid var(--ring); border-radius: 999px; overflow: hidden; background: var(--surface); flex: none; margin-top: 2px; }
+  .theme button { appearance: none; border: 0; background: none; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; letter-spacing: 0.04em; color: var(--ink-2); padding: 5px 11px; cursor: pointer; }
+  .theme button + button { border-left: 1px solid var(--ring); }
+  .theme button[aria-pressed="true"] { background: var(--ink); color: var(--page); }
+  .theme button:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+  @media (max-width: 640px) { header .masthead { flex-wrap: wrap; } .theme { margin-top: 6px; } }
   .today { background: var(--surface); border: 1px solid var(--ring); border-radius: 10px; padding: 16px 18px 12px; margin: 0 0 18px; }
   .today-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; margin-bottom: 10px; }
   .today-kicker { font-size: 10.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
@@ -304,6 +313,7 @@
   }
   @media print {
     .topbar { display: none; }
+    .theme { display: none; }
     .card { break-inside: avoid; }
     .cal { border: 0; }
     .today { border: 0; padding: 0 0 8px; break-inside: avoid; }
@@ -333,6 +343,9 @@
         <p class="eyebrow" data-for="interns" hidden>Intern 2021 Batch · rotation with the department</p>
         <p class="eyebrow" data-for="nursing" hidden>Nursing students · postings with the department</p>
         <p class="dept">Department of Community and Family Medicine</p>
+      </div>
+      <div class="theme" role="group" aria-label="Colour theme">
+        <button type="button" data-theme-choice="auto" aria-pressed="true">Auto</button><button type="button" data-theme-choice="light" aria-pressed="false">Light</button><button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button>
       </div>
     </div>
     <h1 data-for="home cuha crha">Resident Posting Timeline</h1>
@@ -1084,6 +1097,20 @@
   }
   function revealToday(id) { renderToday(id); markToday(id); scrollToDate(id); }
   window.registerView = registerView; window.revealToday = revealToday;
+
+  // ---------------- theme toggle (Auto / Light / Dark; remembered in localStorage 'rpt-theme') ----------------
+  (function () {
+    const root = document.documentElement, btns = [...document.querySelectorAll('.theme button')];
+    const current = () => root.dataset.theme || 'auto';
+    const paint = () => btns.forEach(b => b.setAttribute('aria-pressed', b.dataset.themeChoice === current() ? 'true' : 'false'));
+    btns.forEach(b => b.addEventListener('click', () => {
+      const c = b.dataset.themeChoice;
+      if (c === 'auto') { delete root.dataset.theme; try { localStorage.removeItem('rpt-theme'); } catch (e) {} }
+      else { root.dataset.theme = c; try { localStorage.setItem('rpt-theme', c); } catch (e) {} }
+      paint();
+    }));
+    paint();
+  })();
 
   // ---------------- views: home (default) / #cuha / #crha / #interns / #nursing ----------------
   const TABS = ['cuha', 'crha', 'interns', 'nursing'];
