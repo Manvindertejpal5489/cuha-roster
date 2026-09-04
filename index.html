@@ -883,7 +883,7 @@
       else if (CURRENT < campFrom || CURRENT > campTo) campRow = '<span class="sw" style="--fill:var(--band)"></span><span><b>Outreach camp</b></span></div><div class="today-names"><span class="who muted">camp posting roster runs ' + shortDate(campFrom) + ' – ' + shortDate(campTo) + '</span></div>';
       else campRow = '<span class="sw" style="--fill:var(--band)"></span><span><b>Outreach camp</b></span></div><div class="today-names"><span class="who muted">date not on the roster (Sunday / holiday)</span></div>';
       const d = detailFor(v, CURRENT);
-      h = headHtml(v, CURRENT, null, 'Detailment') + '<div class="today-rows"><div class="today-row"><div class="today-post">' + campRow + '</div>';
+      h = headHtml(v, CURRENT, null, 'Current') + '<div class="today-rows"><div class="today-row"><div class="today-post">' + campRow + '</div>';
       if (d.inWin) {
         for (const row of d.rows) { const c = v.view.cat[row.cat]; h += '<div class="today-row"><div class="today-post"><span class="sw' + (row.duty ? ' duty' : '') + '" style="--fill:var(--c-' + c.sw + ')"></span><span><b>CHN-I · ' + escH(c.label) + '</b>' + (row.note ? '<span class="sub">' + escH(row.note) + '</span>' : '') + '</span></div><div class="today-names">' + row.people.map(p => '<span class="who">' + escH(p.r.name) + ' <i>(' + escH(p.r.role) + ')</i></span>').join('') + '</div></div>'; }
         if (!d.rows.length) h += '<div class="today-row"><div class="today-post"><span class="sw" style="--fill:var(--band)"></span><span><b>CHN-I posting</b></span></div><div class="today-names"><span class="who muted">no group on posting this date</span></div></div>';
@@ -891,7 +891,7 @@
       h += '</div>';
     } else {
       const d = detailFor(v, CURRENT);
-      h = headHtml(v, CURRENT, d, 'Detailment') + rowsHtml(v, d, v.noun || 'residents');
+      h = headHtml(v, CURRENT, d, 'Current') + rowsHtml(v, d, v.noun || 'residents');
     }
     box.innerHTML = h;
     box.querySelectorAll('.has-tip').forEach(wireNameTip);
