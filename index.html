@@ -14,6 +14,7 @@
 <meta name="nursing-version" content="v1">
 <meta name="nursing-prepared" content="2026-09-04">
 <meta name="health-days-version" content="v1">
+<meta name="fap-version" content="v1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -245,6 +246,12 @@
   .key.hd .hd-dot { width: 9px; height: 9px; }
   .hd-badge { display: block; margin-top: 3px; font-size: 10.5px; line-height: 1.25; color: var(--sun-ink); font-weight: 600; padding-left: 12px; position: relative; }
   .hd-badge::before { content: ""; position: absolute; left: 1px; top: 4px; width: 6px; height: 6px; background: var(--sun-ink); transform: rotate(45deg); }
+  :root { --c-fap: var(--c-nhm); }
+  .hd-dot.fap, .hdm.dot.fap { background: var(--c-fap); }
+  .hdm.dot.fap { width: 12px; height: 12px; top: 21px; z-index: 1; }
+  .hd-chip.fap { border-color: var(--c-fap); }
+  .hd-badge.fap { color: var(--c-fap); }
+  .hd-badge.fap::before { background: var(--c-fap); }
   @media (max-width: 640px) { .today-health { flex-direction: column; gap: 6px; } }
   :root { --c-crha: var(--c-nhm); --c-ayush: var(--c-cl5); --c-urban: var(--c-sai); --c-visit: var(--c-out); }
   .name-cell.has-tip, .has-tip { cursor: help; }
@@ -650,19 +657,37 @@
   function healthOn(utc) { return HEALTH ? HEALTH.items.filter(it => it.fromUTC <= utc && utc <= it.toUTC) : []; }
   function healthUpcoming(utc, n) { return HEALTH ? HEALTH.items.filter(it => it.fromUTC > utc).sort((a, b) => a.fromUTC - b.fromUTC).slice(0, n) : []; }
   function healthHtml(utc) {
-    if (!HEALTH) return '';
-    const yearEnd = Date.UTC(HEALTH.year, 11, 31);
+    if (!HEALTH && !FAP) return '';
+    const yearEnd = Date.UTC((HEALTH || FAP).year, 11, 31);
     let body;
-    if (utc > yearEnd) body = '<span class="hd-none">' + (HEALTH.year + 1) + ' health-days calendar to be issued</span>';
+    if (utc > yearEnd) body = '<span class="hd-none">' + ((HEALTH || FAP).year + 1) + ' health-days calendar to be issued · FAP schedule for ' + ((HEALTH || FAP).year + 1) + ' to be issued</span>';
     else {
-      const now = healthOn(utc), next = healthUpcoming(utc, 3);
+      const now = healthOn(utc), next = healthUpcoming(utc, 3), fNow = fapOn(utc), fNext = fapNext(utc);
       const chip = it => '<span class="hd-chip" title="' + escapeAttr(hdLabel(it)) + '"><span class="hd-dot"></span>' + escapeAttr(it.name) + ' <i>' + escapeAttr(hdDates(it) + hdQualifier(it)) + '</i></span>';
-      body = (now.length ? '<span class="hd-lab">On this date</span>' + now.map(chip).join('') : '<span class="hd-none">no health day on this date</span>') +
-        (next.length ? '<span class="hd-lab">Upcoming</span>' + next.map(chip).join('') : (now.length ? '' : '<span class="hd-none">no further health days in the ' + HEALTH.year + ' calendar</span>'));
+      const lastFap = FAP ? Math.max.apply(null, FAP.items.map(it => it.utc)) : 0;
+      body = ((now.length || fNow.length) ? '<span class="hd-lab">On this date</span>' + fNow.map(fapChip).join('') + now.map(chip).join('') : '<span class="hd-none">no health day or FAP visit on this date</span>') +
+        ((next.length || fNext.length) ? '<span class="hd-lab">Upcoming</span>' + fNext.map(fapChip).join('') + next.map(chip).join('') : '') +
+        (FAP && !fNext.length && utc >= lastFap ? '<span class="hd-none">FAP schedule for ' + (FAP.year + 1) + ' to be issued</span>' : '') +
+        (!next.length && !now.length ? '<span class="hd-none">no further health days in the ' + HEALTH.year + ' calendar</span>' : '');
     }
-    return '<div class="today-health"><span class="today-kicker">Health days</span><div class="hd-list">' + body + '</div></div>';
+    return '<div class="today-health"><span class="today-kicker">Health days &amp; FAP</span><div class="hd-list">' + body + '</div></div>';
   }
-  window.registerHealthDays = registerHealthDays;
+  let FAP = null;                                     // { year, items:[{name, semKey, sem, rule, date, dateText, sr, note}] } with utc added
+  function registerFapDays(d) {
+    const p = iso => { const [y, m, dd] = iso.split('-').map(Number); return Date.UTC(y, m - 1, dd); };
+    FAP = Object.assign({}, d, { items: d.items.map(it => Object.assign({}, it, { utc: p(it.date) })) });
+  }
+  const fapLabel = it => it.name + ' · ' + it.dateText + ' · SR ' + it.sr;
+  const fapTip = it => it.sem + ' — ' + it.rule + '. SR coordinator ' + it.sr + '. ' + it.note;
+  function fapOn(utc) { return FAP ? FAP.items.filter(it => it.utc === utc) : []; }
+  function fapNext(utc) {                              // the next visit of EACH semester schedule
+    if (!FAP) return [];
+    const out = {};
+    FAP.items.filter(it => it.utc > utc).sort((a, b) => a.utc - b.utc).forEach(it => { if (!out[it.semKey]) out[it.semKey] = it; });
+    return Object.values(out).sort((a, b) => a.utc - b.utc);
+  }
+  function fapChip(it) { return '<span class="hd-chip fap" title="' + escapeAttr(fapTip(it)) + '"><span class="hd-dot fap"></span>' + escapeAttr(it.name) + ' <i>' + escapeAttr(it.dateText + ' · SR ' + it.sr) + '</i></span>'; }
+  window.registerHealthDays = registerHealthDays; window.registerFapDays = registerFapDays;
 
   // ---------------- calendar (camp posting: one student per listed date) ----------------
   function renderCalendar(camp, root) {
@@ -702,6 +727,9 @@
         if (inRange && HEALTH) {
           HEALTH.items.filter(it => it.fromUTC === t).forEach(it => { const bdg = document.createElement('span'); bdg.className = 'hd-badge'; bdg.title = hdLabel(it); bdg.textContent = it.name + (it.kind !== 'day' ? ' (from ' + it.dateText.split('–')[0].trim() + ')' : ''); cell.appendChild(bdg); });
         }
+        if (inRange && FAP) {
+          FAP.items.filter(it => it.utc === t).forEach(it => { const bdg = document.createElement('span'); bdg.className = 'hd-badge fap'; bdg.title = fapTip(it); bdg.textContent = it.name + ' · SR ' + it.sr; cell.appendChild(bdg); });
+        }
         row.appendChild(cell);
       }
       root.appendChild(row);
@@ -730,7 +758,8 @@
       const g = document.createElement('div'); g.className = 'legend-group';
       g.innerHTML = '<span class="legend-title">Calendar</span>'
         + '<span class="key"><span class="sw sun-sw"></span><b>Sunday</b>&nbsp;· ' + (item.text || 'start of each Sun–Sat outreach week — all centres still run') + '</span>'
-        + (HEALTH ? '<span class="key hd"><span class="hd-dot"></span><b>Health day</b>&nbsp;· ' + HEALTH.year + ' health-days calendar (name and dates)</span>' : '');
+        + (HEALTH ? '<span class="key hd"><span class="hd-dot"></span><b>Health day</b>&nbsp;· ' + HEALTH.year + ' health-days calendar (name and dates)</span>' : '')
+        + (FAP ? '<span class="key hd fap"><span class="hd-dot fap"></span><b>FAP day</b>&nbsp;· Family Adoption Programme (3rd Sem 2nd Saturdays · 5th Sem 4th Saturdays)</span>' : '');
       legend.appendChild(g);
     } else legendGroup(item.title, item.keys, item.duty);
   });
@@ -780,12 +809,23 @@
   canvas.appendChild(axis);
 
   // v2: health-days row (2026 calendar) — periods, weeks and single days on three sub-tracks
-  if (HEALTH) {
+  if (HEALTH || FAP) {
     const hrow = document.createElement('div'); hrow.className = 'crow healthrow';
-    hrow.innerHTML = '<div class="name-cell"><span class="glabel">Health days</span></div>';
+    hrow.innerHTML = '<div class="name-cell"><span class="glabel">Health days · FAP</span></div>';
     const hlane = document.createElement('div'); hlane.className = 'lane';
     const winFrom = view.epochUTC, winTo = view.epochUTC + (N - 1) * 86400000;
-    HEALTH.items.forEach(it => {
+    (FAP ? FAP.items : []).forEach(it => {
+      if (it.utc < winFrom || it.utc > winTo) return;
+      const s = Math.round((it.utc - winFrom) / 86400000);
+      const el = document.createElement('div');
+      el.className = 'hdm dot fap';
+      el.style.left = 'calc(' + pct(s + 0.5) + ' - 6px)';
+      el.setAttribute('role', 'img'); el.setAttribute('aria-label', fapLabel(it));
+      Object.assign(el.dataset, { name: it.name + ' · ' + it.dateText, role: '', tipText: fapTip(it) });
+      wireNameTip(el);
+      hlane.appendChild(el);
+    });
+    (HEALTH ? HEALTH.items : []).forEach(it => {
       if (it.toUTC < winFrom || it.fromUTC > winTo) return;
       const s = Math.max(0, Math.round((it.fromUTC - winFrom) / 86400000)), e = Math.min(N - 1, Math.round((it.toUTC - winFrom) / 86400000));
       const el = document.createElement('div');
@@ -1039,6 +1079,12 @@
 const DATA = {"year":2026,"count":47,"items":[{"id":"hd1","name":"World Braille Day","dateText":"04 Jan","from":"2026-01-04","to":"2026-01-04","kind":"day"},{"id":"hd2","name":"National Youth Day","dateText":"12 Jan","from":"2026-01-12","to":"2026-01-12","kind":"day"},{"id":"hd3","name":"Pulse Polio (NID)","dateText":"18 Jan","from":"2026-01-18","to":"2026-01-18","kind":"day","tentative":1},{"id":"hd4","name":"Anti-Leprosy / NTD Day","dateText":"30 Jan","from":"2026-01-30","to":"2026-01-30","kind":"day"},{"id":"hd5","name":"World Cancer Day","dateText":"04 Feb","from":"2026-02-04","to":"2026-02-04","kind":"day"},{"id":"hd6","name":"Int. Epilepsy Day","dateText":"09 Feb","from":"2026-02-09","to":"2026-02-09","kind":"day"},{"id":"hd7","name":"National Deworming Day","dateText":"10 Feb","from":"2026-02-10","to":"2026-02-10","kind":"day"},{"id":"hd8","name":"Dastak Abhiyaan (Rd 1)","dateText":"Feb–Mar","from":"2026-02-01","to":"2026-03-31","kind":"period","approx":1},{"id":"hd9","name":"World Hearing Day","dateText":"03 Mar","from":"2026-03-03","to":"2026-03-03","kind":"day"},{"id":"hd10","name":"World Kidney Day","dateText":"12 Mar","from":"2026-03-12","to":"2026-03-12","kind":"day"},{"id":"hd11","name":"National Vaccination Day","dateText":"16 Mar","from":"2026-03-16","to":"2026-03-16","kind":"day"},{"id":"hd12","name":"World Tuberculosis Day","dateText":"24 Mar","from":"2026-03-24","to":"2026-03-24","kind":"day"},{"id":"hd13","name":"Autism Awareness Day","dateText":"02 Apr","from":"2026-04-02","to":"2026-04-02","kind":"day"},{"id":"hd14","name":"World Health Day","dateText":"07 Apr","from":"2026-04-07","to":"2026-04-07","kind":"day"},{"id":"hd15","name":"Ayushman HWC Day","dateText":"14 Apr","from":"2026-04-14","to":"2026-04-14","kind":"day"},{"id":"hd16","name":"World Liver Day","dateText":"19 Apr","from":"2026-04-19","to":"2026-04-19","kind":"day"},{"id":"hd17","name":"Hand Hygiene / Asthma","dateText":"05 May","from":"2026-05-05","to":"2026-05-05","kind":"day"},{"id":"hd18","name":"World Hypertension Day","dateText":"17 May","from":"2026-05-17","to":"2026-05-17","kind":"day"},{"id":"hd19","name":"World No Tobacco Day","dateText":"31 May","from":"2026-05-31","to":"2026-05-31","kind":"day"},{"id":"hd20","name":"World Blood Donor Day","dateText":"14 Jun","from":"2026-06-14","to":"2026-06-14","kind":"day"},{"id":"hd21","name":"World Sickle Cell Day","dateText":"19 Jun","from":"2026-06-19","to":"2026-06-19","kind":"day"},{"id":"hd22","name":"Int. Yoga Day","dateText":"21 Jun","from":"2026-06-21","to":"2026-06-21","kind":"day"},{"id":"hd23","name":"National Doctors’ Day","dateText":"01 Jul","from":"2026-07-01","to":"2026-07-01","kind":"day"},{"id":"hd24","name":"World Population Day","dateText":"11 Jul","from":"2026-07-11","to":"2026-07-11","kind":"day"},{"id":"hd25","name":"World Hepatitis Day","dateText":"28 Jul","from":"2026-07-28","to":"2026-07-28","kind":"day"},{"id":"hd26","name":"World Breastfeeding Week","dateText":"01–07 Aug","from":"2026-08-01","to":"2026-08-07","kind":"week"},{"id":"hd27","name":"National Deworming Day","dateText":"10 Aug","from":"2026-08-10","to":"2026-08-10","kind":"day"},{"id":"hd28","name":"World Organ Donation","dateText":"13 Aug","from":"2026-08-13","to":"2026-08-13","kind":"day"},{"id":"hd29","name":"Dastak Abhiyaan (Rd 2)","dateText":"Aug–Sep","from":"2026-08-01","to":"2026-09-30","kind":"period","approx":1},{"id":"hd30","name":"Poshan Maah","dateText":"01–30 Sep","from":"2026-09-01","to":"2026-09-30","kind":"period"},{"id":"hd31","name":"Suicide Prevention Day","dateText":"10 Sep","from":"2026-09-10","to":"2026-09-10","kind":"day"},{"id":"hd32","name":"World Patient Safety Day","dateText":"17 Sep","from":"2026-09-17","to":"2026-09-17","kind":"day"},{"id":"hd33","name":"Swasth Nari Abhiyaan","dateText":"17 Sep–02 Oct","from":"2026-09-17","to":"2026-10-02","kind":"period"},{"id":"hd34","name":"World Heart Day","dateText":"29 Sep","from":"2026-09-29","to":"2026-09-29","kind":"day"},{"id":"hd35","name":"Day of Older Persons","dateText":"01 Oct","from":"2026-10-01","to":"2026-10-01","kind":"day"},{"id":"hd36","name":"World Mental Health Day","dateText":"10 Oct","from":"2026-10-10","to":"2026-10-10","kind":"day"},{"id":"hd37","name":"Global Handwashing Day","dateText":"15 Oct","from":"2026-10-15","to":"2026-10-15","kind":"day"},{"id":"hd38","name":"World Stroke Day","dateText":"29 Oct","from":"2026-10-29","to":"2026-10-29","kind":"day"},{"id":"hd39","name":"Cancer Awareness Day","dateText":"07 Nov","from":"2026-11-07","to":"2026-11-07","kind":"day"},{"id":"hd40","name":"World Pneumonia Day","dateText":"12 Nov","from":"2026-11-12","to":"2026-11-12","kind":"day"},{"id":"hd41","name":"World Diabetes Day","dateText":"14 Nov","from":"2026-11-14","to":"2026-11-14","kind":"day"},{"id":"hd42","name":"Newborn Care Week","dateText":"15–21 Nov","from":"2026-11-15","to":"2026-11-21","kind":"week"},{"id":"hd43","name":"World Prematurity Day","dateText":"17 Nov","from":"2026-11-17","to":"2026-11-17","kind":"day"},{"id":"hd44","name":"World AIDS Day","dateText":"01 Dec","from":"2026-12-01","to":"2026-12-01","kind":"day"},{"id":"hd45","name":"Disability Day","dateText":"03 Dec","from":"2026-12-03","to":"2026-12-03","kind":"day"},{"id":"hd46","name":"UHC Day","dateText":"12 Dec","from":"2026-12-12","to":"2026-12-12","kind":"day"},{"id":"hd47","name":"Epidemic Prep Day","dateText":"27 Dec","from":"2026-12-27","to":"2026-12-27","kind":"day"}],"note":"Names and dates per the 2026 health-days calendar; the 2027 calendar is to be issued."};
 /*__HEALTH_DATA_END__*/
 registerHealthDays(DATA);
+}</script>
+<script>{
+/*__FAP_DATA_START__*/
+const DATA = {"year":2026,"count":9,"items":[{"id":"fap5","name":"FAP · 5th Sem","semKey":"5th","sem":"MBBS 2024 Batch · 5th Semester","rule":"4th Saturday of every month","date":"2026-07-25","dateText":"Sat 25 Jul","sr":"Dr Pooja","note":"All JRs posted in CUHA are pooled for the programme; the SR coordinator is responsible for logistics and attendance."},{"id":"fap6","name":"FAP · 5th Sem","semKey":"5th","sem":"MBBS 2024 Batch · 5th Semester","rule":"4th Saturday of every month","date":"2026-08-22","dateText":"Sat 22 Aug","sr":"Dr Chaitra","note":"All JRs posted in CUHA are pooled for the programme; the SR coordinator is responsible for logistics and attendance."},{"id":"fap1","name":"FAP · 3rd Sem","semKey":"3rd","sem":"MBBS 2025 Batch · 3rd Semester","rule":"2nd Saturday of every month","date":"2026-09-12","dateText":"Sat 12 Sep","sr":"Dr Pooja","note":"All JRs posted in CUHA are pooled for the programme; the SR coordinator is responsible for logistics and attendance."},{"id":"fap7","name":"FAP · 5th Sem","semKey":"5th","sem":"MBBS 2024 Batch · 5th Semester","rule":"4th Saturday of every month","date":"2026-09-26","dateText":"Sat 26 Sep","sr":"Dr Akhil","note":"All JRs posted in CUHA are pooled for the programme; the SR coordinator is responsible for logistics and attendance."},{"id":"fap2","name":"FAP · 3rd Sem","semKey":"3rd","sem":"MBBS 2025 Batch · 3rd Semester","rule":"2nd Saturday of every month","date":"2026-10-10","dateText":"Sat 10 Oct","sr":"Dr Chaitra","note":"All JRs posted in CUHA are pooled for the programme; the SR coordinator is responsible for logistics and attendance."},{"id":"fap8","name":"FAP · 5th Sem","semKey":"5th","sem":"MBBS 2024 Batch · 5th Semester","rule":"4th Saturday of every month","date":"2026-10-24","dateText":"Sat 24 Oct","sr":"Dr Kiranmayi","note":"All JRs posted in CUHA are pooled for the programme; the SR coordinator is responsible for logistics and attendance."},{"id":"fap3","name":"FAP · 3rd Sem","semKey":"3rd","sem":"MBBS 2025 Batch · 3rd Semester","rule":"2nd Saturday of every month","date":"2026-11-14","dateText":"Sat 14 Nov","sr":"Dr Akhil","note":"All JRs posted in CUHA are pooled for the programme; the SR coordinator is responsible for logistics and attendance."},{"id":"fap9","name":"FAP · 5th Sem","semKey":"5th","sem":"MBBS 2024 Batch · 5th Semester","rule":"4th Saturday of every month","date":"2026-11-28","dateText":"Sat 28 Nov","sr":"Dr Aniket","note":"All JRs posted in CUHA are pooled for the programme; the SR coordinator is responsible for logistics and attendance."},{"id":"fap4","name":"FAP · 3rd Sem","semKey":"3rd","sem":"MBBS 2025 Batch · 3rd Semester","rule":"2nd Saturday of every month","date":"2026-12-12","dateText":"Sat 12 Dec","sr":"Dr Kiranmayi","note":"All JRs posted in CUHA are pooled for the programme; the SR coordinator is responsible for logistics and attendance."}],"semesters":["MBBS 2025 Batch · 3rd Semester — 2nd Saturday of every month","MBBS 2024 Batch · 5th Semester — 4th Saturday of every month"]};
+/*__FAP_DATA_END__*/
+registerFapDays(DATA);
 }</script>
 <script>{
 /*__DATA_START__*/
