@@ -893,19 +893,25 @@
     root.innerHTML = h;
     root.querySelectorAll('.has-tip[data-tip-text]').forEach(wireNameTip);
   }
-  function microStationsHtml(iso) {                    // "Stations on this date" rows for the Nursing Current box
+  function microStationsHtml(iso, prefix) {            // "Stations on this date" rows for the Nursing Current box (prefix e.g. 'Next CHN-I day · 21 Dec')
     if (!MICRO) return '';
     let h = '';
+    const lab = (txt) => (prefix ? escapeAttr(prefix) + ' · ' : 'CHN-I · ') + txt;
     MICRO.groups.forEach(g => {
       const v = g.visits.find(x => x.date === iso);
-      if (v) { h += '<div class="today-row"><div class="today-post"><span class="sw duty" style="--fill:var(--c-visit)"></span><span><b>CHN-I · ' + escapeAttr(g.name) + ' · field visit</b></span></div><div class="today-names"><span class="who">' + escapeAttr(v.text) + '</span></div></div>'; return; }
+      if (v) { h += '<div class="today-row"><div class="today-post"><span class="sw duty" style="--fill:var(--c-visit)"></span><span><b>' + lab(escapeAttr(g.name) + ' · field visit') + '</b></span></div><div class="today-names"><span class="who">' + escapeAttr(v.text) + '</span></div></div>'; return; }
       [g.urban, g.rural].forEach(t => {
         const r = t.rows.find(x => x.date === iso); if (!r) return;
-        h += '<div class="today-row"><div class="today-post"><span class="sw" style="--fill:var(--c-' + (t.kind === 'urban' ? 'urban' : 'chik') + ')"></span><span><b>CHN-I · ' + escapeAttr(g.name) + ' · ' + (t.kind === 'urban' ? 'urban field posting' : 'rural posting · Chiklod') + '</b><span class="sub">stations per the micro plan' + (r.issues ? ' · as printed: ' + escapeAttr(r.issues.join('; ')) : '') + '</span></span></div><div class="today-names micro-names">' +
+        h += '<div class="today-row"><div class="today-post"><span class="sw" style="--fill:var(--c-' + (t.kind === 'urban' ? 'urban' : 'chik') + ')"></span><span><b>' + lab(escapeAttr(g.name) + ' · ' + (t.kind === 'urban' ? 'urban field posting' : 'rural posting · Chiklod')) + '</b><span class="sub">stations per the micro plan' + (r.issues ? ' · as printed: ' + escapeAttr(r.issues.join('; ')) : '') + '</span></span></div><div class="today-names micro-names">' +
           t.stations.map((st, k) => '<span class="station"><b>' + escapeAttr(st) + '</b> ' + serialNames(g.id, r.serials[k]).map(x => '<span class="who">' + escapeAttr(x) + '</span>').join('') + '</span>').join('') + '</div></div>';
       });
     });
     return h;
+  }
+  function microNextDate(iso) {                        // next dated micro-plan row or visit day strictly after iso
+    if (!MICRO) return null;
+    const dates = MICRO.groups.flatMap(g => [...g.visits.map(v => v.date), ...g.urban.rows.map(r => r.date), ...g.rural.rows.map(r => r.date)]).filter(d => d > iso).sort();
+    return dates[0] || null;
   }
   window.registerMicroplan = registerMicroplan; window.renderMicroplan = renderMicroplan;
 
@@ -1243,8 +1249,14 @@
       else campRow = '<span class="sw" style="--fill:var(--band)"></span><span><b>Outreach camp</b></span></div><div class="today-names"><span class="who muted">date not on the roster (Sunday / holiday)</span></div>';
       const d = detailFor(v, CURRENT);
       h = headHtml(v, CURRENT, null, 'Current') + healthHtml(CURRENT) + '<div class="today-rows"><div class="today-row"><div class="today-post">' + campRow + '</div>';
+      const campRowFor = (x, label) => { const b = v.camp.batches[x.batch]; return '<div class="today-row"><div class="today-post"><span class="sw" style="--fill:var(--c-' + b.sw + ')"></span><span><b>' + label + '</b><span class="sub">' + escH(b.label) + '</span></span></div><div class="today-names"><span class="who"><b>' + x.dow + ' ' + String(x.day).padStart(2, '0') + ' ' + ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][x.month - 1] + '</b> · ' + escH(x.name) + '</span></div></div>'; };
+      const prevCamp = [...v.camp.entries].reverse().find(x => x.iso < iso && x.name), nextCamp = v.camp.entries.find(x => x.iso > iso && x.name);
+      if (!(e && e.name) && prevCamp) h += campRowFor(prevCamp, 'Previous camp posting');
+      if (nextCamp) h += campRowFor(nextCamp, 'Next camp posting');
       const micro = microStationsHtml(iso);
       if (micro) { h += micro; markPastRows(document.getElementById('panel-nursing')); }
+      const nxt = microNextDate(iso);
+      if (nxt) { const nd = parseIso(nxt); h += microStationsHtml(nxt, 'Next CHN-I day · ' + shortDate(nd)); }
       else if (d.inWin) {
         for (const row of d.rows) { const c = v.view.cat[row.cat]; h += '<div class="today-row"><div class="today-post"><span class="sw' + (row.duty ? ' duty' : '') + '" style="--fill:var(--c-' + c.sw + ')"></span><span><b>CHN-I · ' + escH(c.label) + '</b>' + (row.note ? '<span class="sub">' + escH(row.note) + '</span>' : '') + '</span></div><div class="today-names">' + row.people.map(p => '<span class="who">' + escH(p.r.name) + ' <i>(' + escH(p.r.role) + ')</i></span>').join('') + '</div></div>'; }
         if (!d.rows.length) h += '<div class="today-row"><div class="today-post"><span class="sw" style="--fill:var(--band)"></span><span><b>CHN-I posting</b></span></div><div class="today-names"><span class="who muted">no group on posting this date</span></div></div>';
