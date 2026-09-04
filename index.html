@@ -15,6 +15,7 @@
 <meta name="nursing-prepared" content="2026-09-04">
 <meta name="health-days-version" content="v1">
 <meta name="fap-version" content="v1">
+<meta name="cgr-version" content="v1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -252,6 +253,11 @@
   .hd-chip.fap { border-color: var(--c-fap); }
   .hd-badge.fap { color: var(--c-fap); }
   .hd-badge.fap::before { background: var(--c-fap); }
+  .cgr-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 1.5px var(--surface); flex: none; }
+  .cgrm { position: absolute; top: 3px; width: 10px; height: 10px; border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 1.5px var(--surface); z-index: 3; cursor: help; }
+  .hd-chip.cgr { border-color: var(--ink); font-weight: 500; }
+  .hd-chip.cgr b { font-weight: 600; }
+  .hd-chip.cgr i { font-style: normal; color: var(--muted); font-size: 11px; }
   @media (max-width: 640px) { .today-health { flex-direction: column; gap: 6px; } }
   :root { --c-crha: var(--c-nhm); --c-ayush: var(--c-cl5); --c-urban: var(--c-sai); --c-visit: var(--c-out); }
   .name-cell.has-tip, .has-tip { cursor: help; }
@@ -601,12 +607,14 @@
   ],
   groups: [['SR', 'Senior Residents'], ['JR', 'Junior Residents']],
   epochUTC: Date.UTC(2026, 8, 1),
+  cgr: true,
 };
   const CRHA_VIEW = {
   cat: {"chik":{"sw":"chik","ink":"dark","short":"Chiklod","kb":"Chiklod","kd":"RHC Chiklod","label":"RHC Chiklod"},"goh":{"sw":"goh","ink":"dark","short":"Goharganj","kb":"Goharganj","kd":"CHC Goharganj","label":"CHC Goharganj"},"teach":{"sw":"teach","ink":"light","short":"Teaching","kb":"Teaching","kd":"teaching / clinical posting","label":"Teaching / clinical posting"},"cl3":{"sw":"cl3","ink":"dark","short":"3rd Sem","kb":"3rd Sem Clinical","kd":"UG teaching, 10 am–1 pm","label":"UG teaching · MBBS 3rd Sem clinical posting (10 am–1 pm)"},"out":{"sw":"out","ink":"dark","short":"Outreach","kb":"Outreach van","kd":"Sun–Sat week","label":"Outreach mobile-van week (Sun–Sat)"}},
   legend: [{"title":"Base posting — solid","keys":["chik","goh","teach"],"duty":false},{"sunday":true},{"title":"Duty — striped","keys":["cl3","out"],"duty":true}],
   groups: [["SR","Senior Residents"],["JR","Junior Residents"]],
   epochUTC: Date.UTC(2026, 8, 1),
+  cgr: true,
 };
   const INTERN_VIEW = {
   cat: {"sai":{"sw":"sai","ink":"dark","short":"Sai Baba","kb":"Sai Baba","kd":"CUHA · UPHC Sai Baba Nagar","label":"CUHA · Sai Baba"},"bar":{"sw":"bar","ink":"dark","short":"Barkhera","kb":"Barkhera","kd":"CUHA · Sanjeevani Clinic, Berkheda Pathani","label":"CUHA · Barkhera"},"crha":{"sw":"crha","ink":"light","short":"CRHA","kb":"CRHA","kd":"Community Rural Health Area","label":"CRHA · Community Rural Health Area"},"ipc":{"sw":"ipc","ink":"dark","short":"IPC","kb":"IPC","kd":"IPC posting","label":"IPC"},"ayush":{"sw":"ayush","ink":"dark","short":"Ayush","kb":"Ayush week","kd":"one week within the block","label":"Ayush week (carved out of the block)"}},
@@ -687,7 +695,25 @@
     return Object.values(out).sort((a, b) => a.utc - b.utc);
   }
   function fapChip(it) { return '<span class="hd-chip fap" title="' + escapeAttr(fapTip(it)) + '"><span class="hd-dot fap"></span>' + escapeAttr(it.name) + ' <i>' + escapeAttr(it.dateText + ' · SR ' + it.sr) + '</i></span>'; }
-  window.registerHealthDays = registerHealthDays; window.registerFapDays = registerFapDays;
+  let CGR = null;                                     // { from, to, time, sessions:[{date, dateText, jr[], sr[]}], unitOf, placeholders }
+  function registerCgr(d) {
+    const p = iso => { const [y, m, dd] = iso.split('-').map(Number); return Date.UTC(y, m - 1, dd); };
+    CGR = Object.assign({}, d, { sessions: d.sessions.map(x => Object.assign({}, x, { utc: p(x.date) })), fromUTC: p(d.from), toUTC: p(d.to) });
+  }
+  const cgrName = (n, viewUnit) => { const u = CGR.unitOf[n]; const ph = CGR.placeholders.includes(n); return escapeAttr(ph ? n.replace(' (CRHA)', '') + ', to be named' : n) + (u && u !== viewUnit && !ph ? ' <i>(' + u + ')</i>' : ph ? ' <i>(CRHA)</i>' : ''); };
+  const cgrList = (x, viewUnit) => 'JR ' + x.jr.map(n => cgrName(n, viewUnit)).join(', ') + ' · SR ' + x.sr.map(n => cgrName(n, viewUnit)).join(', ');
+  const cgrTip = x => 'CGR/CCR session · ' + x.dateText + ' · ' + CGR.time + ' — overlaps the day\'s posting. JR: ' + x.jr.join(', ') + '. SR: ' + x.sr.join(', ') + '.';
+  function cgrHtml(utc, viewUnit) {
+    if (!CGR) return '';
+    const today = CGR.sessions.find(x => x.utc === utc), next = CGR.sessions.filter(x => x.utc > utc).sort((a, b) => a.utc - b.utc)[0];
+    let body = '';
+    if (today) body += '<span class="hd-lab">Today ' + CGR.time + '</span><span class="hd-chip cgr"><span class="cgr-dot"></span>' + cgrList(today, viewUnit) + '</span>';
+    if (next) body += '<span class="hd-lab">Next</span><span class="hd-chip cgr"><span class="cgr-dot"></span><b>' + next.dateText + '</b> · ' + cgrList(next, viewUnit) + '</span>';
+    if (!next && utc >= CGR.toUTC) body += '<span class="hd-none">' + (today ? '' : 'no session listed for this date — ') + 'November nominations carry forward in rotation; roster to be issued</span>';
+    if (!today && !next && utc < CGR.fromUTC) body += '<span class="hd-none">nominations start ' + CGR.sessions[0].dateText + '</span>';
+    return '<div class="today-health today-cgr"><span class="today-kicker">CGR / CCR</span><div class="hd-list">' + body + '</div></div>';
+  }
+  window.registerHealthDays = registerHealthDays; window.registerFapDays = registerFapDays; window.registerCgr = registerCgr;
 
   // ---------------- calendar (camp posting: one student per listed date) ----------------
   function renderCalendar(camp, root) {
@@ -759,7 +785,8 @@
       g.innerHTML = '<span class="legend-title">Calendar</span>'
         + '<span class="key"><span class="sw sun-sw"></span><b>Sunday</b>&nbsp;· ' + (item.text || 'start of each Sun–Sat outreach week — all centres still run') + '</span>'
         + (HEALTH ? '<span class="key hd"><span class="hd-dot"></span><b>Health day</b>&nbsp;· ' + HEALTH.year + ' health-days calendar (name and dates)</span>' : '')
-        + (FAP ? '<span class="key hd fap"><span class="hd-dot fap"></span><b>FAP day</b>&nbsp;· Family Adoption Programme (3rd Sem 2nd Saturdays · 5th Sem 4th Saturdays)</span>' : '');
+        + (FAP ? '<span class="key hd fap"><span class="hd-dot fap"></span><b>FAP day</b>&nbsp;· Family Adoption Programme (3rd Sem 2nd Saturdays · 5th Sem 4th Saturdays)</span>' : '')
+        + (view.cgr && CGR ? '<span class="key cgr"><span class="cgr-dot"></span><b>CGR/CCR</b>&nbsp;· nominated for the Saturday 08:00–09:00 session — overlaps the day\'s posting</span>' : '');
       legend.appendChild(g);
     } else legendGroup(item.title, item.keys, item.duty);
   });
@@ -904,6 +931,25 @@
     addGroup(label + ' · ' + data.residents.filter(r => r.group === g).length);
     data.residents.filter(r => r.group === g).forEach(addRow);
   });
+  // v2: CGR/CCR nominations as overlay markers on the nominee's lane (the 08:00–09:00 session overlaps the posting)
+  if (view.cgr && CGR) {
+    const winFrom = view.epochUTC, winTo = view.epochUTC + (N - 1) * 86400000;
+    const rowsByName = {};
+    canvas.querySelectorAll('.crow.r').forEach(row => { const nm = row.querySelector('.name-cell'); if (nm) rowsByName[nm.firstChild.textContent.trim()] = row.querySelector('.lane'); });
+    CGR.sessions.forEach(x => {
+      if (x.utc < winFrom || x.utc > winTo) return;
+      const idx = Math.round((x.utc - winFrom) / 86400000);
+      [...x.jr, ...x.sr].forEach(n => {
+        const lane = rowsByName[n]; if (!lane) return;
+        const el = document.createElement('div'); el.className = 'cgrm';
+        el.style.left = 'calc(' + pct(idx + 0.5) + ' - 5px)';
+        el.setAttribute('role', 'img'); el.setAttribute('aria-label', n + ': ' + cgrTip(x));
+        Object.assign(el.dataset, { name: n + ' · CGR/CCR', role: '', tipText: x.dateText + ' · ' + CGR.time + ' — overlaps the day\'s posting. With JR ' + x.jr.filter(m => m !== n).join(', ') + '; SR ' + x.sr.filter(m => m !== n).join(', ') + '.' });
+        wireNameTip(el);
+        lane.appendChild(el);
+      });
+    });
+  }
 
   // ---------------- table view ----------------
   const tbl = root.querySelector('details.tableview table.detail');
@@ -1004,7 +1050,7 @@
       h += '</div>';
     } else {
       const d = detailFor(v, CURRENT);
-      h = headHtml(v, CURRENT, d, 'Current') + healthHtml(CURRENT) + rowsHtml(v, d, v.noun || 'residents');
+      h = headHtml(v, CURRENT, d, 'Current') + healthHtml(CURRENT) + (v.view.cgr ? cgrHtml(CURRENT, id.toUpperCase()) : '') + rowsHtml(v, d, v.noun || 'residents');
     }
     box.innerHTML = h;
     box.querySelectorAll('.has-tip').forEach(wireNameTip);
@@ -1085,6 +1131,12 @@ registerHealthDays(DATA);
 const DATA = {"year":2026,"count":9,"items":[{"id":"fap5","name":"FAP · 5th Sem","semKey":"5th","sem":"MBBS 2024 Batch · 5th Semester","rule":"4th Saturday of every month","date":"2026-07-25","dateText":"Sat 25 Jul","sr":"Dr Pooja","note":"All JRs posted in CUHA are pooled for the programme; the SR coordinator is responsible for logistics and attendance."},{"id":"fap6","name":"FAP · 5th Sem","semKey":"5th","sem":"MBBS 2024 Batch · 5th Semester","rule":"4th Saturday of every month","date":"2026-08-22","dateText":"Sat 22 Aug","sr":"Dr Chaitra","note":"All JRs posted in CUHA are pooled for the programme; the SR coordinator is responsible for logistics and attendance."},{"id":"fap1","name":"FAP · 3rd Sem","semKey":"3rd","sem":"MBBS 2025 Batch · 3rd Semester","rule":"2nd Saturday of every month","date":"2026-09-12","dateText":"Sat 12 Sep","sr":"Dr Pooja","note":"All JRs posted in CUHA are pooled for the programme; the SR coordinator is responsible for logistics and attendance."},{"id":"fap7","name":"FAP · 5th Sem","semKey":"5th","sem":"MBBS 2024 Batch · 5th Semester","rule":"4th Saturday of every month","date":"2026-09-26","dateText":"Sat 26 Sep","sr":"Dr Akhil","note":"All JRs posted in CUHA are pooled for the programme; the SR coordinator is responsible for logistics and attendance."},{"id":"fap2","name":"FAP · 3rd Sem","semKey":"3rd","sem":"MBBS 2025 Batch · 3rd Semester","rule":"2nd Saturday of every month","date":"2026-10-10","dateText":"Sat 10 Oct","sr":"Dr Chaitra","note":"All JRs posted in CUHA are pooled for the programme; the SR coordinator is responsible for logistics and attendance."},{"id":"fap8","name":"FAP · 5th Sem","semKey":"5th","sem":"MBBS 2024 Batch · 5th Semester","rule":"4th Saturday of every month","date":"2026-10-24","dateText":"Sat 24 Oct","sr":"Dr Kiranmayi","note":"All JRs posted in CUHA are pooled for the programme; the SR coordinator is responsible for logistics and attendance."},{"id":"fap3","name":"FAP · 3rd Sem","semKey":"3rd","sem":"MBBS 2025 Batch · 3rd Semester","rule":"2nd Saturday of every month","date":"2026-11-14","dateText":"Sat 14 Nov","sr":"Dr Akhil","note":"All JRs posted in CUHA are pooled for the programme; the SR coordinator is responsible for logistics and attendance."},{"id":"fap9","name":"FAP · 5th Sem","semKey":"5th","sem":"MBBS 2024 Batch · 5th Semester","rule":"4th Saturday of every month","date":"2026-11-28","dateText":"Sat 28 Nov","sr":"Dr Aniket","note":"All JRs posted in CUHA are pooled for the programme; the SR coordinator is responsible for logistics and attendance."},{"id":"fap4","name":"FAP · 3rd Sem","semKey":"3rd","sem":"MBBS 2025 Batch · 3rd Semester","rule":"2nd Saturday of every month","date":"2026-12-12","dateText":"Sat 12 Dec","sr":"Dr Kiranmayi","note":"All JRs posted in CUHA are pooled for the programme; the SR coordinator is responsible for logistics and attendance."}],"semesters":["MBBS 2025 Batch · 3rd Semester — 2nd Saturday of every month","MBBS 2024 Batch · 5th Semester — 4th Saturday of every month"]};
 /*__FAP_DATA_END__*/
 registerFapDays(DATA);
+}</script>
+<script>{
+/*__CGR_DATA_START__*/
+const DATA = {"from":"2026-09-05","to":"2026-10-31","time":"08:00–09:00","sessions":[{"date":"2026-09-05","dateText":"Sat 05 Sep","jr":["Dr Abhishek","Dr Syed","Dr Prerak","Dr Avinash"],"sr":["Dr Smriti","Dr Kiranmayi"]},{"date":"2026-09-12","dateText":"Sat 12 Sep","jr":["Dr Athira","Dr Shemona","Dr Prakhar","Dr Arjun"],"sr":["Dr Aniket","Dr Pooja"]},{"date":"2026-09-19","dateText":"Sat 19 Sep","jr":["Dr Angel","Dr Himani","Dr Athira","Dr Libny"],"sr":["New SR-1 (CRHA)","Dr Akhil"]},{"date":"2026-09-26","dateText":"Sat 26 Sep","jr":["Dr Sahil","Dr Kapil","Dr Yash","Dr Abhishek"],"sr":["New SR-2 (CRHA)","Dr Chaitra"]},{"date":"2026-10-03","dateText":"Sat 03 Oct","jr":["Dr Syed","Dr Prerak","Dr Avinash","Dr Chhavi"],"sr":["Dr Manvinder","Dr Smriti"]},{"date":"2026-10-10","dateText":"Sat 10 Oct","jr":["Dr Shemona","Dr Prakhar","Dr Arjun","Dr Angel"],"sr":["Dr Kiranmayi","Dr Aniket"]},{"date":"2026-10-17","dateText":"Sat 17 Oct","jr":["Dr Himani","Dr Chhavi","Dr Libny","Dr Sahil"],"sr":["Dr Pooja","New SR-1 (CRHA)"]},{"date":"2026-10-24","dateText":"Sat 24 Oct","jr":["Dr Kapil","Dr Yash","Dr Abhishek","Dr Syed"],"sr":["Dr Akhil","New SR-2 (CRHA)"]},{"date":"2026-10-31","dateText":"Sat 31 Oct","jr":["Dr Prerak","Dr Avinash","Dr Prakhar","Dr Shemona"],"sr":["Dr Chaitra","Dr Manvinder"]}],"unitOf":{"Dr Manvinder":"CUHA","Dr Kiranmayi":"CUHA","Dr Pooja":"CUHA","Dr Akhil":"CUHA","Dr Chaitra":"CUHA","Dr Abhishek":"CUHA","Dr Prerak":"CUHA","Dr Prakhar":"CUHA","Dr Athira":"CUHA","Dr Angel":"CUHA","Dr Chhavi":"CUHA","Dr Sahil":"CUHA","Dr Yash":"CUHA","Dr Smriti":"CRHA","Dr Aniket":"CRHA","Dr Himani":"CRHA","Dr Arjun":"CRHA","Dr Shraddha":"CRHA","Dr Avinash":"CRHA","Dr Shemona":"CRHA","Dr Aakanksha":"CRHA","Dr Libny":"CRHA","Dr Syed":"CRHA","Dr Kapil":"CRHA","New SR-1 (CRHA)":"CRHA","New SR-2 (CRHA)":"CRHA"},"placeholders":["New SR-1 (CRHA)","New SR-2 (CRHA)"],"notes":["Sessions run every Saturday 08:00–09:00 and overlap the day's posting; the posting itself is unchanged.","Nominations rotate continuously across September and October (each SR twice; each JR twice or thrice) and carry forward into November — the November list is to be issued.","Residents on the outreach van that week, on approved leave, or deputed to NHM for the month have not been nominated for those Saturdays.","Each Saturday draws residents from both Units; a replacement is arranged from within the same Unit and intimated in advance.","The two blank Senior Resident slots are the newly joining CRHA Senior Residents, to be named."]};
+/*__CGR_DATA_END__*/
+registerCgr(DATA);
 }</script>
 <script>{
 /*__DATA_START__*/
