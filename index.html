@@ -187,7 +187,20 @@
   /* site assembly (build_site_v1.js): tab strip, CRHA colour aliases, signed-roster table */
   :root { --c-chik: var(--c-ipc); --c-goh: var(--c-sai); --c-teach: var(--c-nhm); --c-cl3: var(--c-cl5); }
   [hidden] { display: none !important; }
-  .tabs { display: flex; gap: 2px; margin: -6px 0 18px; border-bottom: 1px solid var(--axis); }
+  .topbar { display: flex; align-items: flex-end; gap: 14px; margin: -6px 0 18px; border-bottom: 1px solid var(--axis); }
+  .homelink { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11.5px; letter-spacing: 0.02em; color: var(--ink-2); text-decoration: none; padding: 8px 0 10px; white-space: nowrap; }
+  .homelink:hover, .homelink:focus-visible { color: var(--ink); text-decoration: underline; }
+  .tabs { display: flex; gap: 2px; }
+  .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 4px; }
+  .card { display: block; text-decoration: none; color: inherit; background: var(--surface); border: 1px solid var(--ring); border-radius: 10px; padding: 22px 24px 20px; }
+  .card:hover, .card:focus-visible { border-color: var(--ink); outline: none; }
+  .card .chips { display: flex; gap: 5px; margin-bottom: 14px; }
+  .card .chips .sw { width: 22px; height: 8px; }
+  .card h2 { font-family: "IBM Plex Serif", Georgia, "Times New Roman", serif; font-weight: 700; font-size: 24px; line-height: 1.15; margin: 0 0 2px; }
+  .card .sub { margin: 0 0 12px; font-size: 13.5px; color: var(--ink-2); }
+  .card .meta { margin: 0; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; line-height: 1.7; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .card .cta { margin: 14px 0 0; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); }
+  .home-note { margin: 22px 0 0; color: var(--muted); font-size: 12px; }
   .tab { appearance: none; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 8px 14px; font: inherit; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); cursor: pointer; border-radius: 4px 4px 0 0; }
   .tab .sub { font-family: "IBM Plex Mono", ui-monospace, monospace; font-weight: 500; font-size: 11px; letter-spacing: 0.02em; text-transform: none; color: var(--muted); margin-left: 8px; font-variant-numeric: tabular-nums; }
   .tab:hover { color: var(--ink); }
@@ -203,9 +216,11 @@
   @media (max-width: 640px) {
     .tab { padding: 8px 10px; }
     .tab .sub { display: none; }
+    .cards { grid-template-columns: 1fr; }
   }
   @media print {
-    .tabs { display: none; }
+    .topbar { display: none; }
+    .card { break-inside: avoid; }
     .section-title.flow { break-before: page; break-after: avoid; margin-top: 0; }
     .rwrap { border: 0; break-inside: avoid; }
     table.roster { min-width: 0; }
@@ -217,23 +232,48 @@
   <header>
     <div class="masthead">
       <div>
-        <p class="eyebrow" data-for="cuha">Community Urban Health Area (CUHA)</p>
+        <p class="eyebrow" data-for="home">Resident postings · September – December 2026</p>
+        <p class="eyebrow" data-for="cuha" hidden>Community Urban Health Area (CUHA)</p>
         <p class="eyebrow" data-for="crha" hidden>Community Rural Health Area (CRHA)</p>
         <p class="dept">Department of Community and Family Medicine</p>
       </div>
     </div>
     <h1>Resident Posting Timeline</h1>
-    <p class="dateline" data-for="cuha">01 September – 31 December 2026</p>
+    <p class="dateline" data-for="home">Choose a health area to view its posting timeline</p>
+    <p class="dateline" data-for="cuha" hidden>01 September – 31 December 2026</p>
     <p class="dateline" data-for="crha" hidden>01 September – 30 November 2026</p>
     <hr class="rule"><hr class="rule">
   </header>
 
-  <div class="tabs" role="tablist" aria-label="Health area">
-    <button class="tab" role="tab" type="button" id="tab-cuha" aria-selected="true" aria-controls="panel-cuha">CUHA<span class="sub">Sep–Dec 2026</span></button>
-    <button class="tab" role="tab" type="button" id="tab-crha" aria-selected="false" tabindex="-1" aria-controls="panel-crha">CRHA<span class="sub">Sep–Nov 2026</span></button>
+  <div class="topbar" data-for="cuha crha" hidden>
+    <a class="homelink" href="#home">‹ Home</a>
+    <div class="tabs" role="tablist" aria-label="Health area">
+      <button class="tab" role="tab" type="button" id="tab-cuha" aria-selected="false" tabindex="-1" aria-controls="panel-cuha">CUHA<span class="sub">Sep–Dec 2026</span></button>
+      <button class="tab" role="tab" type="button" id="tab-crha" aria-selected="false" tabindex="-1" aria-controls="panel-crha">CRHA<span class="sub">Sep–Nov 2026</span></button>
+    </div>
   </div>
 
-  <section id="panel-cuha" role="tabpanel" aria-labelledby="tab-cuha" tabindex="0">
+  <section id="panel-home" aria-label="Choose a health area">
+    <div class="cards">
+      <a class="card" href="#cuha" aria-label="CUHA — Community Urban Health Area — view postings">
+        <div class="chips"><span class="sw" style="--fill:var(--c-ipc)"></span><span class="sw" style="--fill:var(--c-sai)"></span><span class="sw" style="--fill:var(--c-bar)"></span></div>
+        <h2>CUHA</h2>
+        <p class="sub">Community Urban Health Area</p>
+        <p class="meta">01 September – 31 December 2026<br>13 residents · 5 Senior · 8 Junior<br>Roster prepared 03.09.2026</p>
+        <p class="cta">View postings →</p>
+      </a>
+      <a class="card" href="#crha" aria-label="CRHA — Community Rural Health Area — view postings">
+        <div class="chips"><span class="sw" style="--fill:var(--c-chik)"></span><span class="sw" style="--fill:var(--c-goh)"></span><span class="sw" style="--fill:var(--c-teach)"></span></div>
+        <h2>CRHA</h2>
+        <p class="sub">Community Rural Health Area</p>
+        <p class="meta">01 September – 30 November 2026<br>11 residents · 2 Senior · 9 Junior<br>Roster prepared 04.09.2026</p>
+        <p class="cta">View postings →</p>
+      </a>
+    </div>
+    <p class="home-note">Department of Community and Family Medicine — resident posting timelines. Each view shows every resident's primary allocation per day, with a text table, notes and sources.</p>
+  </section>
+
+  <section id="panel-cuha" role="tabpanel" aria-labelledby="tab-cuha" tabindex="0" hidden>
   <div class="legend"></div>
 
   <div class="panel">
@@ -481,7 +521,7 @@
   tbl.innerHTML = html;
   }
 
-  // ---------------- tabs (#cuha / #crha) ----------------
+  // ---------------- views: home (default) / #cuha / #crha ----------------
   const TABS = ['cuha', 'crha'];
   const tabEl = id => document.getElementById('tab-' + id);
   const panelEl = id => document.getElementById('panel-' + id);
@@ -492,15 +532,17 @@
       tabEl(t).tabIndex = on ? 0 : -1;
       panelEl(t).hidden = !on;
     });
-    document.querySelectorAll('[data-for]').forEach(el => { el.hidden = el.dataset.for !== id; });
+    panelEl('home').hidden = id !== 'home';
+    document.querySelectorAll('[data-for]').forEach(el => { el.hidden = !el.dataset.for.split(' ').includes(id); });
     tip.classList.remove('show');
   }
-  const fromHash = () => { const h = (location.hash || '').slice(1).toLowerCase(); return TABS.includes(h) ? h : 'cuha'; };
+  const fromHash = () => { const h = (location.hash || '').slice(1).toLowerCase(); return TABS.includes(h) ? h : 'home'; };
   const route = () => activate(fromHash());
   const go = (id, focus) => { if (location.hash !== '#' + id) location.hash = id; else activate(id); if (focus) tabEl(id).focus(); };
   TABS.forEach(t => tabEl(t).addEventListener('click', () => go(t, false)));
   document.querySelector('.tabs').addEventListener('keydown', e => {
     const i = TABS.indexOf(fromHash());
+    if (i < 0) return;
     let j = null;
     if (e.key === 'ArrowRight') j = (i + 1) % TABS.length;
     else if (e.key === 'ArrowLeft') j = (i - 1 + TABS.length) % TABS.length;
