@@ -21,6 +21,7 @@
 <meta name="teaching-version" content="v1">
 <meta name="chn-microplan-version" content="v1">
 <meta name="chn2-version" content="v1">
+<meta name="cfm-focus-version" content="v1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -273,7 +274,7 @@
   table.micro td.cell .mn { display: block; white-space: nowrap; }
   table.micro td.cell .mn i { font-style: normal; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; color: var(--muted); margin-right: 5px; font-variant-numeric: tabular-nums; }
   table.micro td.cell .mn.none { color: var(--muted); font-style: italic; }
-  table.micro td.cell:nth-child(7) { border-left: 2px solid var(--axis); }
+  table.micro td.cell.unit { border-left: 2px solid var(--axis); }
   table.micro tr.issue td.dates { color: var(--sun-ink); }
   table.micro tr.current td { background: var(--band); }
   .micro-names { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 6px 14px; }
@@ -296,8 +297,18 @@
   .hd-chip.cgr b { font-weight: 600; }
   .hd-chip.cgr i { font-style: normal; color: var(--muted); font-size: 11px; }
   @media (max-width: 640px) { .today-health { flex-direction: column; gap: 6px; } }
-  :root { --c-crha: var(--c-nhm); --c-ayush: var(--c-cl5); --c-urban: var(--c-sai); --c-visit: var(--c-out); --c-gohr: var(--c-cl5); --c-umr: var(--c-leave); }
+  :root { --c-crha: var(--c-nhm); --c-ayush: var(--c-cl5); --c-urban: var(--c-sai); --c-visit: var(--c-out); --c-gohr: var(--c-cl5); --c-umr: var(--c-off); }
   .sublede .sw { display: inline-block; vertical-align: middle; margin-right: 2px; }
+  /* department focus: stations outside the department's postings (hospital units, Umraoganj) are muted */
+  table.micro th.off, table.micro td.cell.off { opacity: 0.45; }
+  table.micro th small { display: block; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--muted); }
+  .today-row.off { opacity: 0.55; }
+  .micro-names .station.off { opacity: 0.55; }
+  .micro-names .station b i { font-style: normal; font-weight: 500; color: var(--muted); text-transform: none; letter-spacing: 0; }
+  .micro-names .station.off { grid-column: 1 / -1; }
+  .micro-names .station.off .u { font-weight: 600; color: var(--ink-2); }
+  .micro-names .station.off .who + .who::before { content: " · "; }
+  .chn2 .bar[data-cat="umr"] { opacity: 0.55; }
   .micro td.dates small { display: block; font-weight: 500; color: var(--muted); }
   .students .sub { color: var(--muted); font-style: italic; font-weight: 500; }
   .name-cell.has-tip, .has-tip { cursor: help; }
@@ -589,7 +600,7 @@
   <div class="cal" role="table" aria-label="Outreach camp posting calendar, one nursing student per date, 31 August to 11 December 2026"></div>
 
   <h2 class="subhead">CHN-II community posting · 4th Year B.Sc (Hons) Nursing · 31 August – 10 December 2026</h2>
-  <p class="sublede">Three groups in turn, 27 posting days each in five blocks: Berkheda Patani, Saibabanagar / 1100 quarters / Shahpura, Chiklod, Goharganj, Umraoganj — Nursing College circular of 26.06.2026.</p>
+  <p class="sublede">Three groups in turn, 27 posting days each in five blocks: Berkheda Patani, Saibabanagar / 1100 quarters / Shahpura, Chiklod, Goharganj, Umraoganj — Nursing College circular of 26.06.2026. Stations run by the department (Barkhera Patani, Sai Baba Nagar, Chiklod, Goharganj, Immunisation) are shown in full; the hospital units and the Umraoganj block are muted.</p>
   <div class="chn2">
   <div class="legend"></div>
   <div class="panel">
@@ -642,7 +653,7 @@
   </div>
 
   <h2 class="subhead">CHN-I community posting · B.Sc (Hons) Nursing III Year · 14 December 2026 – 5 March 2027</h2>
-  <p class="sublede">Three groups in turn: field visits, urban field posting (Berkheda Patani + Saibaba Nagar + 1100 quarters), then rural posting at Chiklod — Nursing College circular of 17.08.2026.</p>
+  <p class="sublede">Three groups in turn: field visits, urban field posting (Berkheda Patani + Saibaba Nagar + 1100 quarters), then rural posting at Chiklod — Nursing College circular of 17.08.2026. Stations run by the department are shown in full; the hospital units (DOTS, ICTC, ART, ATF) are muted.</p>
   <div class="chn">
   <div class="legend"></div>
   <div class="panel">
@@ -703,6 +714,7 @@
     <li><b>Outreach camp posting</b> (31 Aug – 11 Dec 2026): one nursing student joins the outreach mobile van each listed day, reporting to the CFM resident on outreach at 9.15 am at the van's location. The calendar names the student per date; a coloured dot marks the batch. "No student posted" reproduces the dashes in the roster; blank dates (Sundays, holidays) are not on the roster. 7 Nov is held for any M.Sc student joining through open counselling.</li>
     <li><b>CHN-I community posting</b> (B.Sc (Hons) Nursing III Year, Batch 2024): three groups in turn, each starting with two field-visit days (Sanchi dairy plant &amp; water purification plant; India waste management), then the <b>urban field posting</b> at Berkheda Patani, Saibaba Nagar and the 1100 quarters, then the <b>rural posting at Chiklod</b>. Bars show the posting days exactly as listed in the circular (gaps are Sundays and holidays); 9 am – 5 pm, field posting 9.30 am – 1 pm, afternoon in the lab.</li>
     <li><b>CHN-II community posting</b> (4th Year B.Sc (Hons) Nursing, Batch 2023; 31 Aug – 10 Dec 2026): the same three groups as the camp roster, each for 27 posting days in five blocks — <b>Berkheda Patani</b> (Days 1–6), <b>Saibabanagar / 1100 quarters / Shahpura</b> (Days 7–12), <b>Chiklod</b> (Days 13–18), <b>Goharganj</b> (Days 19–24) and <b>Umraoganj</b> (Days 25–27). Students report to the CHN lab at 9 am for the day's briefing; no vehicle is provided for the peripheral postings; for the hospital units they report to the nursing officer in charge. "Misrod ATF" is to be read as the psychiatry OPD ATF; at Umraoganj the four hospital units take the PHC group if the PHC is not open yet. Group 1's Days 25–26 (29–30 Sep) are marked * on the circular: hospital units posting, as the 2022 batch has its final examinations. Each day's outreach camp student (calendar above) is drawn from the group on posting.</li>
+    <li><b>Department focus.</b> Both micro plans are reproduced in full, but only part of each is catered for by the Department of Community and Family Medicine: <b>Sanjeevani Clinic, Barkhera Patani</b> (urban field practice area (home visits, AWW)); <b>UPHC Sai Baba Nagar and the 1100 quarters</b> (urban field practice area (home visits, AWW)); <b>PHC and RHC Chiklod</b> (rural field practice area (HWC / AWW Tilandi, home visits)); <b>CHC Goharganj</b> (rural field practice area (HWC, home visits)); <b>Immunisation clinic</b>. Those stations are shown in full with the place named under the printed heading and listed first in the Current box; the stations outside the department's postings — DOTS, ICTC, ART, ATF / Misrod ATF, Yoga, Diet OPD, Dental OPD, Integrated clinic, Oncology day care, Eye bank, Milk bank, Skin bank, and the whole Umraoganj block — are muted in the tables, folded into one "Other units" line in the Current box, and drawn grey on the CHN-II chart.</li>
     <li>The CHN-II station micro plan is one template for all three groups (only the dates differ) and refers to serials 25 and 26 although each group has 24 students; those serials are shown as "no such serial". Every row otherwise tallies.</li>
     <li>Within each CHN-I posting the students rotate daily through stations — Sanjeevini Clinic, 1100, UPHC, AWW, home visits; RHC, PHC, HWC Tilandi, AWW Tilandi; and the units DOTS, ICTC, ART, Immunisation, ATF — by serial number as per the <b>station micro plan</b>, reproduced below as circulated, with the students' names in place of the printed serial numbers (hover a cell for the numbers; the Current box lists each station's students for the selected date). Students are listed by name and group; hover or focus a name for the serial number.</li>
     <li>Rows marked † are shown as printed although they do not tally: the urban tables of Groups II and III carry serial 28 although those groups have 27 students, and a few rows list a serial at two stations or omit one (e.g. Group I 08 Jan omits 25 and 26). Hover the date for the detail.</li>
@@ -783,11 +795,12 @@
   epochUTC: Date.UTC(2026, 11, 14),
 };
   const CHN2_VIEW = {
-  cat: {"bar":{"sw":"bar","ink":"dark","short":"Berkheda Patani","kb":"Berkheda","kd":"urban field posting","label":"Urban field posting · Berkheda Patani"},"sai":{"sw":"sai","ink":"dark","short":"Saibabanagar","kb":"Saibabanagar","kd":"urban field posting · 1100 qtrs · Shahpura","label":"Urban field posting · Saibabanagar / 1100 qtrs / Shahpura"},"chik":{"sw":"chik","ink":"dark","short":"Chiklod","kb":"Chiklod","kd":"rural field posting","label":"Rural field posting · Chiklod"},"gohr":{"sw":"gohr","ink":"dark","short":"Goharganj","kb":"Goharganj","kd":"rural field posting","label":"Rural field posting · Goharganj"},"umr":{"sw":"umr","ink":"dark","short":"Umraoganj","kb":"Umraoganj","kd":"rural field posting","label":"Rural field posting · Umraoganj"}},
-  legend: [{"title":"Posting block — solid","keys":["bar","sai","chik","gohr","umr"],"duty":false},{"sunday":true,"text":"weekly off — no posting"}],
+  cat: {"bar":{"sw":"bar","ink":"dark","short":"Berkheda Patani","kb":"Berkheda","kd":"urban field posting","label":"Urban field posting · Berkheda Patani"},"sai":{"sw":"sai","ink":"dark","short":"Saibabanagar","kb":"Saibabanagar","kd":"urban field posting · 1100 qtrs · Shahpura","label":"Urban field posting · Saibabanagar / 1100 qtrs / Shahpura"},"chik":{"sw":"chik","ink":"dark","short":"Chiklod","kb":"Chiklod","kd":"rural field posting","label":"Rural field posting · Chiklod"},"gohr":{"sw":"gohr","ink":"dark","short":"Goharganj","kb":"Goharganj","kd":"rural field posting","label":"Rural field posting · Goharganj"},"umr":{"sw":"umr","ink":"dark","short":"Umraoganj","kb":"Umraoganj","kd":"rural field posting · not with the department","label":"Rural field posting · Umraoganj (not with the department)"}},
+  legend: [{"title":"Posting block — solid","keys":["bar","sai","chik","gohr"],"duty":false},{"title":"Outside the department — muted","keys":["umr"],"duty":false},{"sunday":true,"text":"weekly off — no posting"}],
   groups: [["chn2","4th Year B.Sc (Hons) Nursing · CHN-II posting groups"]],
   epochUTC: Date.UTC(2026, 7, 31),
 };
+  const STATION_FOCUS = {"chn1":{"urban":[{"name":"Sanjeevini Clinic","cfm":true,"place":"Barkhera Patani"},{"name":"1100","cfm":true,"place":"Sai Baba Nagar","facility":"1100 quarters"},{"name":"UPHC","cfm":true,"place":"Sai Baba Nagar"},{"name":"AWW Saibaba N","cfm":true,"place":"Sai Baba Nagar"},{"name":"Home Visit Berkheda","cfm":true,"place":"Barkhera Patani"},{"name":"DOTS","cfm":false},{"name":"ICTC","cfm":false},{"name":"ART","cfm":false},{"name":"Immunization","cfm":true,"place":"Immunisation clinic"},{"name":"ATF","cfm":false}],"rural":[{"name":"RHC","cfm":true,"place":"Chiklod"},{"name":"PHC","cfm":true,"place":"Chiklod"},{"name":"HWC Tilandi","cfm":true,"place":"Chiklod","facility":"Tilandi"},{"name":"AWW Tilandi","cfm":true,"place":"Chiklod","facility":"Tilandi"},{"name":"Home Visit","cfm":true,"place":"Chiklod"},{"name":"DOTS","cfm":false},{"name":"ICTC","cfm":false},{"name":"ART","cfm":false},{"name":"Immunization","cfm":true,"place":"Immunisation clinic"},{"name":"ATF","cfm":false}]},"chn2":{"bar":[{"name":"Health centre","cfm":true,"place":"Barkhera Patani","facility":"Sanjeevani Clinic"},{"name":"Home visits","cfm":true,"place":"Barkhera Patani"},{"name":"AWW","cfm":true,"place":"Barkhera Patani"},{"name":"DOTS","cfm":false},{"name":"ICTC","cfm":false},{"name":"ART","cfm":false},{"name":"Immunization","cfm":true,"place":"Immunisation clinic"}],"sai":[{"name":"Health centre","cfm":true,"place":"Sai Baba Nagar","facility":"UPHC"},{"name":"1100 qtrs","cfm":true,"place":"Sai Baba Nagar","facility":"1100 quarters"},{"name":"Home visits","cfm":true,"place":"Sai Baba Nagar"},{"name":"DOTS","cfm":false},{"name":"ICTC","cfm":false},{"name":"ART","cfm":false},{"name":"Immunization","cfm":true,"place":"Immunisation clinic"}],"chik":[{"name":"PHC","cfm":true,"place":"Chiklod"},{"name":"RHC","cfm":true,"place":"Chiklod"},{"name":"Home visit","cfm":true,"place":"Chiklod"},{"name":"HWC","cfm":true,"place":"Chiklod"},{"name":"Misrod ATF","cfm":false},{"name":"Yoga","cfm":false},{"name":"Diet OPD","cfm":false},{"name":"Dental OPD","cfm":false},{"name":"Integrated clinic","cfm":false}],"gohr":[{"name":"Health centre","cfm":true,"place":"Goharganj","facility":"CHC"},{"name":"HWC","cfm":true,"place":"Goharganj"},{"name":"Home visits","cfm":true,"place":"Goharganj"},{"name":"Yoga","cfm":false},{"name":"Diet OPD","cfm":false},{"name":"Dental OPD","cfm":false},{"name":"Integrated clinic","cfm":false}],"umr":[{"name":"Follow-up visits","cfm":false},{"name":"HWC","cfm":false},{"name":"PHC","cfm":false},{"name":"Oncology day care","cfm":false},{"name":"Eye bank","cfm":false},{"name":"Milk bank","cfm":false},{"name":"Skin bank","cfm":false}]},"blocksOff":["umr"],"places":[{"place":"Barkhera Patani","text":"Sanjeevani Clinic, Barkhera Patani — urban field practice area (home visits, AWW)"},{"place":"Sai Baba Nagar","text":"UPHC Sai Baba Nagar and the 1100 quarters — urban field practice area (home visits, AWW)"},{"place":"Chiklod","text":"PHC and RHC Chiklod — rural field practice area (HWC / AWW Tilandi, home visits)"},{"place":"Goharganj","text":"CHC Goharganj — rural field practice area (HWC, home visits)"},{"place":"Immunisation clinic","text":"Immunisation clinic"}],"mutedText":"DOTS, ICTC, ART, ATF / Misrod ATF, Yoga, Diet OPD, Dental OPD, Integrated clinic, Oncology day care, Eye bank, Milk bank, Skin bank, and the whole Umraoganj block"};
   const UGTEACH_VIEW = { teaching: true, epochUTC: Date.UTC(2026, 6, 1) };
   const PGTEACH_VIEW = { teaching: true, epochUTC: Date.UTC(2026, 6, 1) };
 
@@ -937,12 +950,24 @@
     (students || []).forEach(g => { MICRO_NAMES[g.id] = {}; g.students.forEach(st => { MICRO_NAMES[g.id][st.sr] = st.name; }); });
   }
   const serialNames = (gid, serials) => serials.map(n => (MICRO_NAMES[gid] && MICRO_NAMES[gid][n]) ? n + ' ' + MICRO_NAMES[gid][n] : n + ' (no serial ' + n + ' in this group)');
-  function microTable(g, t) {
-    let h = '<table class="detail tsched micro"><thead><tr><th>Date</th>' + t.stations.map((st, k) => '<th' + (k >= t.stations.length - t.units ? ' class="unit"' : '') + '>' + escapeAttr(st) + '</th>').join('') + '</tr></thead><tbody>';
+  const FOCUS_OF = (plan, key) => (typeof STATION_FOCUS !== 'undefined' && STATION_FOCUS[plan] && STATION_FOCUS[plan][key]) || null;
+  function stationsHtml(gid, stations, serials, focus) {   // department stations (with place) first, then one folded line for the rest
+    const who = (ss) => ss.length ? serialNames(gid, ss).map(x => '<span class="who">' + escapeAttr(x) + '</span>').join('') : '<span class="who muted">—</span>';
+    const fo = (k) => (focus && focus[k]) || { cfm: true };
+    let h = '';
+    stations.forEach((st, k) => { if (fo(k).cfm) h += '<span class="station"><b>' + escapeAttr(st) + (focusPlace(fo(k)) ? ' <i>' + focusPlace(fo(k)) + '</i>' : '') + '</b> ' + who(serials[k]) + '</span>'; });
+    const rest = stations.map((st, k) => ({ st, k })).filter(x => !fo(x.k).cfm);
+    if (rest.length) h += '<span class="station off"><b>' + (h ? 'Other units' : 'Stations') + '</b> ' + rest.map(x => '<span class="who"><span class="u">' + escapeAttr(x.st) + '</span> ' + (serials[x.k].length ? serialNames(gid, serials[x.k]).map(escapeAttr).join(', ') : '—') + '</span>').join('') + '</span>';
+    return h;
+  }
+  const focusPlace = (f) => f && f.cfm ? (f.facility ? escapeAttr(f.facility) + ' · ' : '') + escapeAttr(f.place) : '';
+  function microTable(g, t, focus) {                   // focus: [{name, place, cfm}] per column (cfm_focus_v1) — muted columns get class "off"
+    const fo = (k) => (focus && focus[k]) || null;
+    let h = '<table class="detail tsched micro"><thead><tr><th>Date</th>' + t.stations.map((st, k) => '<th class="' + (k >= t.stations.length - t.units ? 'unit' : '') + (fo(k) && !fo(k).cfm ? ' off' : '') + '"' + (fo(k) && !fo(k).cfm ? ' title="outside the department\'s postings"' : '') + '>' + escapeAttr(st) + (focusPlace(fo(k)) ? '<small>' + focusPlace(fo(k)) + '</small>' : '') + '</th>').join('') + '</tr></thead><tbody>';
     t.rows.forEach(r => {
       const tt = [r.issues ? 'As printed — ' + r.issues.join('; ') : '', r.phantom ? 'serial ' + r.phantom.join(', ') + ' printed — no such student in this group' : '', r.note || ''].filter(Boolean).join(' · ');
       h += '<tr data-date="' + r.date + '"' + (r.issues ? ' class="issue"' : '') + (tt ? ' title="' + escapeAttr(tt) + '"' : '') + '><td class="dates">' + r.date.slice(8, 10) + '/' + r.date.slice(5, 7) + '/' + r.date.slice(0, 4) + (r.issues ? ' †' : '') + (r.note ? ' *' : '') + (r.day ? '<small>Day ' + r.day + '</small>' : '') + '</td>' +
-        r.cells.map((c, k) => '<td class="cell has-tip" data-name="' + escapeAttr(t.stations[k]) + '" data-role="" data-tip-text="' + escapeAttr(r.date.slice(8, 10) + '/' + r.date.slice(5, 7) + ' · serials as printed: ' + (c || '—')) + '">' +
+        r.cells.map((c, k) => '<td class="cell has-tip' + (k === t.stations.length - t.units ? ' unit' : '') + (fo(k) && !fo(k).cfm ? ' off' : '') + '" data-name="' + escapeAttr(t.stations[k]) + '" data-role="" data-tip-text="' + escapeAttr(r.date.slice(8, 10) + '/' + r.date.slice(5, 7) + ' · serials as printed: ' + (c || '—') + (fo(k) && !fo(k).cfm ? ' · outside the department' : '')) + '">' +
           r.serials[k].map(n => { const nm = MICRO_NAMES[g.id] && MICRO_NAMES[g.id][n]; return '<span class="mn' + (nm ? '' : ' none') + '"><i>' + n + '</i>' + escapeAttr(nm || 'no such serial') + '</span>'; }).join('') + '</td>').join('') + '</tr>';
     });
     return h + '</tbody></table>';
@@ -953,8 +978,8 @@
     MICRO.groups.forEach(g => {
       h += '<section class="tseries micro-group"><h2 class="subhead">Micro plan · ' + escapeAttr(g.name) + ' <span class="role">(' + g.size + ' students)</span></h2>' +
         '<p class="sublede">' + g.visits.map(v => v.date.slice(8, 10) + '/' + v.date.slice(5, 7) + '/' + v.date.slice(0, 4) + ' — ' + escapeAttr(v.text)).join(' · ') + '</p>' +
-        '<p class="sublede"><b>' + escapeAttr(MICRO.urbanLabel) + '</b> · ' + escapeAttr(MICRO.unitsLabel) + '</p><div class="rwrap">' + microTable(g, g.urban) + '</div>' +
-        '<p class="sublede"><b>' + escapeAttr(MICRO.ruralLabel) + '</b> · ' + escapeAttr(MICRO.unitsLabel) + '</p><div class="rwrap">' + microTable(g, g.rural) + '</div></section>';
+        '<p class="sublede"><b>' + escapeAttr(MICRO.urbanLabel) + '</b> · ' + escapeAttr(MICRO.unitsLabel) + '</p><div class="rwrap">' + microTable(g, g.urban, FOCUS_OF('chn1', 'urban')) + '</div>' +
+        '<p class="sublede"><b>' + escapeAttr(MICRO.ruralLabel) + '</b> · ' + escapeAttr(MICRO.unitsLabel) + '</p><div class="rwrap">' + microTable(g, g.rural, FOCUS_OF('chn1', 'rural')) + '</div></section>';
     });
     root.innerHTML = h;
     root.querySelectorAll('.has-tip[data-tip-text]').forEach(wireNameTip);
@@ -969,7 +994,7 @@
       [g.urban, g.rural].forEach(t => {
         const r = t.rows.find(x => x.date === iso); if (!r) return;
         h += '<div class="today-row"><div class="today-post"><span class="sw" style="--fill:var(--c-' + (t.kind === 'urban' ? 'urban' : 'chik') + ')"></span><span><b>' + lab(escapeAttr(g.name) + ' · ' + (t.kind === 'urban' ? 'urban field posting' : 'rural posting · Chiklod')) + '</b><span class="sub">stations per the micro plan' + (r.issues ? ' · as printed: ' + escapeAttr(r.issues.join('; ')) : '') + '</span></span></div><div class="today-names micro-names">' +
-          t.stations.map((st, k) => '<span class="station"><b>' + escapeAttr(st) + '</b> ' + serialNames(g.id, r.serials[k]).map(x => '<span class="who">' + escapeAttr(x) + '</span>').join('') + '</span>').join('') + '</div></div>';
+          stationsHtml(g.id, t.stations, r.serials, FOCUS_OF('chn1', t.kind)) + '</div></div>';
       });
     });
     return h;
@@ -993,7 +1018,7 @@
     MICRO2.groups.forEach(g => {
       h += '<section class="tseries micro-group"><h2 class="subhead">CHN-II micro plan · ' + escapeAttr(g.name) + ' <span class="role">(' + g.size + ' students · ' + escapeAttr(g.span) + ')</span></h2>';
       g.blocks.forEach(b => {
-        h += '<p class="sublede"><span class="sw" style="--fill:var(--c-' + b.id + ')"></span> <b>' + escapeAttr(b.label) + '</b> · Days ' + b.rows[0].day + '–' + b.rows[b.rows.length - 1].day + ' · ' + escapeAttr(b.unitsLabel) + '</p><div class="rwrap">' + microTable({ id: 'c2:' + g.id }, b) + '</div>';
+        h += '<p class="sublede"><span class="sw" style="--fill:var(--c-' + b.id + ')"></span> <b>' + escapeAttr(b.label) + '</b> · Days ' + b.rows[0].day + '–' + b.rows[b.rows.length - 1].day + ' · ' + escapeAttr(b.unitsLabel) + '</p><div class="rwrap">' + microTable({ id: 'c2:' + g.id }, b, FOCUS_OF('chn2', b.id)) + '</div>';
       });
       h += '</section>';
     });
@@ -1007,8 +1032,9 @@
     MICRO2.groups.forEach(g => {
       g.blocks.forEach(b => {
         const r = b.rows.find(x => x.date === iso); if (!r) return;
-        h += '<div class="today-row"><div class="today-post"><span class="sw" style="--fill:var(--c-' + b.id + ')"></span><span><b>' + lab(escapeAttr(g.name) + ' · Day ' + r.day + ' · ' + escapeAttr(b.place)) + '</b><span class="sub">' + escapeAttr(b.label) + ' · stations per the micro plan' + (b.altOf !== undefined ? ' · the four units take the PHC group if the PHC is not open yet' : '') + (r.note ? ' · ' + escapeAttr(r.note) : '') + (r.issues ? ' · as printed: ' + escapeAttr(r.issues.join('; ')) : '') + '</span></span></div><div class="today-names micro-names">' +
-          b.stations.map((st, k) => '<span class="station"><b>' + escapeAttr(st) + '</b> ' + (r.serials[k].length ? serialNames('c2:' + g.id, r.serials[k]).map(x => '<span class="who">' + escapeAttr(x) + '</span>').join('') : '<span class="who muted">—</span>') + '</span>').join('') + '</div></div>';
+        const blockOff = typeof STATION_FOCUS !== 'undefined' && STATION_FOCUS.blocksOff.includes(b.id);
+        h += '<div class="today-row' + (blockOff ? ' off' : '') + '"><div class="today-post"><span class="sw" style="--fill:var(--c-' + b.id + ')"></span><span><b>' + lab(escapeAttr(g.name) + ' · Day ' + r.day + ' · ' + escapeAttr(b.place)) + '</b><span class="sub">' + escapeAttr(b.label) + (blockOff ? ' · outside the department\'s postings' : ' · stations per the micro plan') + (b.altOf !== undefined ? ' · the four units take the PHC group if the PHC is not open yet' : '') + (r.note ? ' · ' + escapeAttr(r.note) : '') + (r.issues ? ' · as printed: ' + escapeAttr(r.issues.join('; ')) : '') + '</span></span></div><div class="today-names micro-names">' +
+          stationsHtml('c2:' + g.id, b.stations, r.serials, FOCUS_OF('chn2', b.id)) + '</div></div>';
       });
     });
     return h;
