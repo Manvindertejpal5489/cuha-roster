@@ -267,7 +267,11 @@
   table.hcal td .chip { display: inline-flex; align-items: center; gap: 8px; }
   table.hcal td.note { color: var(--ink-2); white-space: nowrap; }
   table.micro th.unit { border-left: 2px solid var(--axis); }
-  table.micro td.cell { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11.5px; white-space: nowrap; cursor: help; font-variant-numeric: tabular-nums; }
+  table.micro { min-width: 1400px; }
+  table.micro td.cell { font-size: 11.5px; line-height: 1.3; white-space: normal; cursor: help; vertical-align: top; padding: 6px 8px; }
+  table.micro td.cell .mn { display: block; white-space: nowrap; }
+  table.micro td.cell .mn i { font-style: normal; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; color: var(--muted); margin-right: 5px; font-variant-numeric: tabular-nums; }
+  table.micro td.cell .mn.none { color: var(--muted); font-style: italic; }
   table.micro td.cell:nth-child(7) { border-left: 2px solid var(--axis); }
   table.micro tr.issue td.dates { color: var(--sun-ink); }
   table.micro tr.current td { background: var(--band); }
@@ -629,7 +633,7 @@
       <tr><td><span class="has-tip" data-name="Kalpana Sinwar" data-role="" data-tip-text="Group I · Sr. No. 28">Kalpana Sinwar</span></td><td></td><td></td></tr>
     </tbody></table>
   </div>
-  <h2 class="section-title flow">Station micro plan — as circulated (serial numbers; hover a cell for names)</h2>
+  <h2 class="section-title flow">Station micro plan — as circulated (names; hover a cell for the printed serial numbers)</h2>
   <div class="microplan"></div>
   <details class="tableview">
     <summary>Full posting table (text view)</summary>
@@ -641,7 +645,7 @@
   <ol class="notes">
     <li><b>Outreach camp posting</b> (31 Aug – 11 Dec 2026): one nursing student joins the outreach mobile van each listed day, reporting to the CFM resident on outreach at 9.15 am at the van's location. The calendar names the student per date; a coloured dot marks the batch. "No student posted" reproduces the dashes in the roster; blank dates (Sundays, holidays) are not on the roster. 7 Nov is held for any M.Sc student joining through open counselling.</li>
     <li><b>CHN-I community posting</b> (B.Sc (Hons) Nursing III Year, Batch 2024): three groups in turn, each starting with two field-visit days (Sanchi dairy plant &amp; water purification plant; India waste management), then the <b>urban field posting</b> at Berkheda Patani, Saibaba Nagar and the 1100 quarters, then the <b>rural posting at Chiklod</b>. Bars show the posting days exactly as listed in the circular (gaps are Sundays and holidays); 9 am – 5 pm, field posting 9.30 am – 1 pm, afternoon in the lab.</li>
-    <li>Within each posting the students rotate daily through stations — Sanjeevini Clinic, 1100, UPHC, AWW, home visits; RHC, PHC, HWC Tilandi, AWW Tilandi; and the units DOTS, ICTC, ART, Immunisation, ATF — by serial number as per the <b>station micro plan</b>, reproduced below exactly as circulated (hover a cell for the students' names; the Current box lists each station's students for the selected date). Students are listed by name and group; hover or focus a name for the serial number.</li>
+    <li>Within each posting the students rotate daily through stations — Sanjeevini Clinic, 1100, UPHC, AWW, home visits; RHC, PHC, HWC Tilandi, AWW Tilandi; and the units DOTS, ICTC, ART, Immunisation, ATF — by serial number as per the <b>station micro plan</b>, reproduced below as circulated, with the students' names in place of the printed serial numbers (hover a cell for the numbers; the Current box lists each station's students for the selected date). Students are listed by name and group; hover or focus a name for the serial number.</li>
     <li>Rows marked † are shown as printed although they do not tally: the urban tables of Groups II and III carry serial 28 although those groups have 27 students, and a few rows list a serial at two stations or omit one (e.g. Group I 08 Jan omits 25 and 26). Hover the date for the detail.</li>
   </ol>
   <p class="source">Companion chart to the nursing students' postings with the Department of Community and Family Medicine. Prepared 04.09.2026.</p>
@@ -872,7 +876,8 @@
     let h = '<table class="detail tsched micro"><thead><tr><th>Date</th>' + t.stations.map((st, k) => '<th' + (k >= t.stations.length - t.units ? ' class="unit"' : '') + '>' + escapeAttr(st) + '</th>').join('') + '</tr></thead><tbody>';
     t.rows.forEach(r => {
       h += '<tr data-date="' + r.date + '"' + (r.issues ? ' class="issue" title="' + escapeAttr('As printed — ' + r.issues.join('; ')) + '"' : '') + '><td class="dates">' + r.date.slice(8, 10) + '/' + r.date.slice(5, 7) + '/' + r.date.slice(0, 4) + (r.issues ? ' †' : '') + '</td>' +
-        r.cells.map((c, k) => '<td class="cell has-tip" data-name="' + escapeAttr(t.stations[k]) + '" data-role="" data-tip-text="' + escapeAttr(r.date.slice(8, 10) + '/' + r.date.slice(5, 7) + ' · ' + serialNames(g.id, r.serials[k]).join(' · ')) + '">' + escapeAttr(c) + '</td>').join('') + '</tr>';
+        r.cells.map((c, k) => '<td class="cell has-tip" data-name="' + escapeAttr(t.stations[k]) + '" data-role="" data-tip-text="' + escapeAttr(r.date.slice(8, 10) + '/' + r.date.slice(5, 7) + ' · serials as printed: ' + c) + '">' +
+          r.serials[k].map(n => { const nm = MICRO_NAMES[g.id] && MICRO_NAMES[g.id][n]; return '<span class="mn' + (nm ? '' : ' none') + '"><i>' + n + '</i>' + escapeAttr(nm || 'no such serial') + '</span>'; }).join('') + '</td>').join('') + '</tr>';
     });
     return h + '</tbody></table>';
   }
