@@ -399,13 +399,15 @@
     .sidenav { width: 264px; transform: translateX(-100%); overflow-y: auto; padding-top: 60px; }
     :root[data-navdrawer="open"] .sidenav { transform: none; box-shadow: var(--shadow); }
     :root[data-navdrawer="open"] .nav-scrim { display: block; }
-    .nav-open { display: inline-flex; }
+    .nav-open { display: inline-flex; position: fixed; top: 12px; left: 12px; z-index: 38; margin: 0; box-shadow: var(--shadow); }
+    header .masthead { padding-left: 40px; }
     .nav-toggle { position: absolute; top: 12px; right: 10px; margin: 0; }
     .nav-toggle .ico, :root[data-nav="collapsed"] .nav-toggle .ico { transform: none; }
     :root[data-nav="collapsed"] .nav-item { padding: 5px 10px; }
     :root[data-nav="collapsed"] .nav-brand { padding: 0 10px; }
     :root[data-nav="collapsed"] .nav-li::after { display: none; }
   }
+  @media (max-width: 640px) { header .masthead { padding-left: 50px; } }
   @media print {
     .topbar { display: none; }
     .theme { display: none; }
